@@ -50,7 +50,7 @@ var isRepository = StringComparer.OrdinalIgnoreCase.Equals("dpvreony/nettestregi
 var isDevelopBranch = StringComparer.OrdinalIgnoreCase.Equals("develop", AppVeyor.Environment.Repository.Branch);
 var isReleaseBranch = StringComparer.OrdinalIgnoreCase.Equals("master", AppVeyor.Environment.Repository.Branch);
 var isTagged = AppVeyor.Environment.Repository.Tag.IsTag;
-var unitTestProjectFilePath = "./src/Dhgms.NetTestRegimentation.UnitTests/Dhgms.NetTestRegimentation.UnitTests.csproj";
+var unitTestProjectFilePath = "./src/NetTestRegimentation.UnitTests/NetTestRegimentation.UnitTests.csproj";
 
 var githubOwner = "dpvreony";
 var githubRepository = "nettestregimentation";
@@ -157,7 +157,7 @@ Task("BuildSolution")
     };
 
     // Restore must be a separate step
-    MSBuild("./src/Dhgms.AspNetCoreContrib.sln", new MSBuildSettings() {
+    MSBuild("./src/NetTestRegimentation.sln", new MSBuildSettings() {
             ToolPath = msBuildPath,
             ArgumentCustomization = args => args.Append("/bl:restore.binlog /m")
         }
@@ -166,7 +166,7 @@ Task("BuildSolution")
         .WithProperty("Version", nugetVersion.ToString())
         .SetVerbosity(Verbosity.Minimal));
     
-    build("./src/Dhgms.AspNetCoreContrib.sln");
+    build("./src/NetTestRegimentation.sln");
 });
 
 // https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/

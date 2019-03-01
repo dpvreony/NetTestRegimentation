@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation", "..\NetTestRegimentation\NetTestRegimentation.csproj", "{8AF4A141-D137-41A3-951A-1B001ACA4274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestRegimentation", "NetTestRegimentation\NetTestRegimentation.csproj", "{F1E91E4A-554C-42DC-8570-0349C1A56C18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.UnitTests", "NetTestRegimentation.UnitTests\NetTestRegimentation.UnitTests.csproj", "{98BE3C86-7D46-4735-B89C-D60C98D88479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8AF4A141-D137-41A3-951A-1B001ACA4274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8AF4A141-D137-41A3-951A-1B001ACA4274}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8AF4A141-D137-41A3-951A-1B001ACA4274}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8AF4A141-D137-41A3-951A-1B001ACA4274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1E91E4A-554C-42DC-8570-0349C1A56C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1E91E4A-554C-42DC-8570-0349C1A56C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1E91E4A-554C-42DC-8570-0349C1A56C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1E91E4A-554C-42DC-8570-0349C1A56C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98BE3C86-7D46-4735-B89C-D60C98D88479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98BE3C86-7D46-4735-B89C-D60C98D88479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98BE3C86-7D46-4735-B89C-D60C98D88479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98BE3C86-7D46-4735-B89C-D60C98D88479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
