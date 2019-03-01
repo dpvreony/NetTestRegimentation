@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Dhgms.NetContrib.Playground.Features.UnitTesting
+namespace NetTestRegimentation
 {
     public interface IAsyncMethodWithNullableParametersTest<in TInput>
     {

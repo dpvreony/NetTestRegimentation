@@ -1,4 +1,4 @@
-namespace Dhgms.NetContrib.Playground.Features.UnitTesting
+namespace NetTestRegimentation
 {
     public interface IEntityFrameworkDbSetPropertyTest
     {
