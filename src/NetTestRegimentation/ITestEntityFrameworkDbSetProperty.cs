@@ -1,6 +1,6 @@
 namespace NetTestRegimentation
 {
-    public interface IEntityFrameworkDbSetPropertyTest
+    public interface ITestEntityFrameworkDbSetProperty
     {
         void AllowsInsert();
 
