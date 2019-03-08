@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NetTestRegimentation.UnitTests
 {
     [ExcludeFromCodeCoverage]
-    public static class Helper
+    public static class ArgumentHelpers
     {
 
         public static async Task ThrowIfNullAsync<T>(

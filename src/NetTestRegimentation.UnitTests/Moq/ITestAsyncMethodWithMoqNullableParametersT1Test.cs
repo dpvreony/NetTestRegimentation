@@ -12,24 +12,17 @@ namespace NetTestRegimentation.UnitTests.Moq
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithMoqNullableParametersT1Test
     {
-        public sealed class Throws : ITestAsyncMethodWithMoqNullableParameters<string>
+        public sealed class Throws : ITestAsyncMethodWithMoqNullableParameters<FakeObject>
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = new object[][]
-            {
-                new object[]
-                {
-                    null,
-                    "arg"
-                }
-            };
+            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = ObjectArrayHelper.GetMoqArgObjectArrayOfArray(1);
 
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestSource))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Mock<string> arg,
+                Mock<FakeObject> arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => Helper.ThrowIfNullAsync(arg.Object, expectedParameterNameForException));
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg.Object, expectedParameterNameForException));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

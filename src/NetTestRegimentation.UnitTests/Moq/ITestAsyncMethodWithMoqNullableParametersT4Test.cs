@@ -10,24 +10,30 @@ using Xunit;
 namespace NetTestRegimentation.UnitTests.Moq
 {
     [ExcludeFromCodeCoverage]
-    public static class ITestAsyncMethodWithMoqNullableParametersT2Test
+    public static class ITestAsyncMethodWithMoqNullableParametersT4Test
     {
         public sealed class Throws : ITestAsyncMethodWithMoqNullableParameters<
             FakeObject,
+            FakeObject,
+            FakeObject,
             FakeObject>
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = ObjectArrayHelper.GetMoqArgObjectArrayOfArray(2);
+            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = ObjectArrayHelper.GetMoqArgObjectArrayOfArray(4);
 
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestSource))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Mock<FakeObject> arg1,
                 Mock<FakeObject> arg2,
+                Mock<FakeObject> arg3,
+                Mock<FakeObject> arg4,
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(
                     arg1.Object,
                     arg2.Object,
+                    arg3.Object,
+                    arg4.Object,
                     expectedParameterNameForException));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
