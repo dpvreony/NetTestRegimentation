@@ -1,36 +1,542 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NetTestRegimentation.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public static class Helper
     {
 
-        public static async Task ThrowIfNullAsync<T>(T arg, string paramName)
+        public static async Task ThrowIfNullAsync<T>(
+            T arg,
+            string paramName)
         {
-            await Task.Run(() => ThrowIfNull(arg, paramName));
+            await Task.Run(() => ThrowIfNull(
+                arg,
+                paramName));
         }
 
-        public static async Task ThrowIfNullAsync<T1, T2>(
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2>(
             T1 arg1,
             T2 arg2,
             string paramName)
         {
-            await Task.Run(() => ThrowIfNull(arg1, arg2, paramName));
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                paramName));
         }
 
-        public static async Task ThrowIfNullAsync<T1, T2, T3>(
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3>(
             T1 arg1,
             T2 arg2,
             T3 arg3,
             string paramName)
         {
-            await Task.Run(() => ThrowIfNull(arg1, arg2, arg3, paramName));
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                paramName));
         }
 
-        private static void ThrowIfNull<T>(T arg, string paramName)
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                paramName));
+        }
+
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                paramName));
+        }
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                paramName));
+        }
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                paramName));
+        }
+
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                paramName));
+        }
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                paramName));
+        }
+
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                paramName));
+        }
+
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10,
+            T11>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            T11 arg11,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                arg11,
+                paramName));
+        }
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10,
+            T11,
+            T12>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            T11 arg11,
+            T12 arg12,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                arg11,
+                arg12,
+                paramName));
+        }
+
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10,
+            T11,
+            T12,
+            T13>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            T11 arg11,
+            T12 arg12,
+            T13 arg13,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                arg11,
+                arg12,
+                arg13,
+                paramName));
+        }
+
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10,
+            T11,
+            T12,
+            T13,
+            T14>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            T11 arg11,
+            T12 arg12,
+            T13 arg13,
+            T14 arg14,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                arg11,
+                arg12,
+                arg13,
+                arg14,
+                paramName));
+        }
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10,
+            T11,
+            T12,
+            T13,
+            T14,
+            T15>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            T11 arg11,
+            T12 arg12,
+            T13 arg13,
+            T14 arg14,
+            T15 arg15,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                arg11,
+                arg12,
+                arg13,
+                arg14,
+                arg15,
+                paramName));
+        }
+
+        public static async Task ThrowIfNullAsync<
+            T1,
+            T2,
+            T3,
+            T4,
+            T5,
+            T6,
+            T7,
+            T8,
+            T9,
+            T10,
+            T11,
+            T12,
+            T13,
+            T14,
+            T15,
+            T16>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9,
+            T10 arg10,
+            T11 arg11,
+            T12 arg12,
+            T13 arg13,
+            T14 arg14,
+            T15 arg15,
+            T16 arg16,
+            string paramName)
+        {
+            await Task.Run(() => ThrowIfNull(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+                arg9,
+                arg10,
+                arg11,
+                arg12,
+                arg13,
+                arg14,
+                arg15,
+                arg16,
+                paramName));
+        }
+
+        public static void ThrowIfNull<T>(T arg, string paramName)
+
         {
             if (arg == null)
             {
@@ -38,7 +544,7 @@ namespace NetTestRegimentation.UnitTests
             }
         }
 
-        private static void ThrowIfNull<TArg1, TArg2>(
+        public static void ThrowIfNull<TArg1, TArg2>(
             TArg1 arg1,
             TArg2 arg2,
             string paramName)
@@ -47,7 +553,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg2, nameof(arg2));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3>(
@@ -61,7 +567,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg3, nameof(arg3));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -78,7 +584,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg4, nameof(arg4));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -98,7 +604,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg5, nameof(arg5));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -121,7 +627,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg6, nameof(arg6));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -147,7 +653,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg7, nameof(arg7));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -176,7 +682,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg8, nameof(arg8));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -208,7 +714,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg9, nameof(arg9));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -243,7 +749,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg10, nameof(arg10));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -281,7 +787,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg11, nameof(arg11));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -322,7 +828,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg12, nameof(arg12));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -366,7 +872,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg13, nameof(arg13));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -413,7 +919,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg14, nameof(arg14));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
@@ -463,7 +969,7 @@ namespace NetTestRegimentation.UnitTests
             ThrowIfNull(arg15, nameof(arg15));
         }
 
-        private static void ThrowIfNull<
+        public static void ThrowIfNull<
             TArg1,
             TArg2,
             TArg3,
