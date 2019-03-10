@@ -1,13 +1,10 @@
-﻿using Moq;
-using NetTestRegimentation.Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NetTestRegimentation.UnitTests.Moq
+namespace NetTestRegimentation.UnitTests
 {
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithNullableParametersT10Test
@@ -42,16 +39,16 @@ namespace NetTestRegimentation.UnitTests.Moq
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(
-                    arg1.Object,
-                    arg2.Object,
-                    arg3.Object,
-                    arg4.Object,
-                    arg5.Object,
-                    arg6.Object,
-                    arg7.Object,
-                    arg8.Object,
-                    arg9.Object,
-                    arg10.Object,
+                    arg1,
+                    arg2,
+                    arg3,
+                    arg4,
+                    arg5,
+                    arg6,
+                    arg7,
+                    arg8,
+                    arg9,
+                    arg10,
                     expectedParameterNameForException));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }

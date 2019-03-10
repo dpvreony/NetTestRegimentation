@@ -1,13 +1,10 @@
-﻿using Moq;
-using NetTestRegimentation.Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NetTestRegimentation.UnitTests.Moq
+namespace NetTestRegimentation.UnitTests
 {
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithNullableParametersT5Test

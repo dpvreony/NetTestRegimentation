@@ -2,6 +2,11 @@ using System.Threading.Tasks;
 
 namespace NetTestRegimentation
 {
+    public interface ITestAsyncMethodWithNullableParameters
+    {
+        Task ThrowsArgumentNullExceptionAsync();
+    }
+
     public interface ITestAsyncMethodWithNullableParameters<in TArg>
     {
         Task ThrowsArgumentNullExceptionAsync(
