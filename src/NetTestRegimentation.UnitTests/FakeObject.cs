@@ -4,7 +4,10 @@ using System.Text;
 
 namespace NetTestRegimentation.UnitTests
 {
-    public sealed class FakeObject
+    public class FakeObject : IFakeObject
+    {
+    }
+    public interface IFakeObject
     {
     }
 }

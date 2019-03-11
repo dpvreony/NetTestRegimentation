@@ -22,7 +22,7 @@ namespace NetTestRegimentation.UnitTests.Moq
                 Mock<FakeObject> arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg.Object, expectedParameterNameForException));
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg?.Object, expectedParameterNameForException));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

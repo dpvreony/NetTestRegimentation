@@ -7,10 +7,36 @@ namespace NetTestRegimentation.UnitTests
 {
     public static class ObjectArrayHelper
     {
+        public static object[][] GetArgObjectArrayOfArray(int size)
+        {
+            var result = new List<object[]>(size);
+            for (int i = 1; i <= size; i++)
+            {
+                result.Add(GetArgObjectArray(size, i));
+            }
+
+            return result.ToArray();
+        }
+
+        public static object[] GetArgObjectArray(
+            int size,
+            int argumentToLeaveNull)
+        {
+            var result = new List<object>(size + 1);
+            for (int i = 1; i <= size; i++)
+            {
+                result.Add((i == argumentToLeaveNull) ? null : new FakeObject());
+            }
+
+            result.Add($"arg{argumentToLeaveNull}");
+
+            return result.ToArray();
+        }
+
         public static object[][] GetMoqArgObjectArrayOfArray(int size)
         {
             var result = new List<object[]>(size);
-            for (int i = 1; i < size; i++)
+            for (int i = 1; i <= size; i++)
             {
                 result.Add(GetMoqArgObjectArray(size, i));
             }
@@ -23,7 +49,7 @@ namespace NetTestRegimentation.UnitTests
             int argumentToLeaveNull)
         {
             var result = new List<object>(size + 1);
-            for (int i = 1; i < size; i++)
+            for (int i = 1; i <= size; i++)
             {
                 result.Add((i == argumentToLeaveNull) ? null : new Mock<FakeObject>());
             }
