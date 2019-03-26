@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Description>A library to aid in structuring unit tests to help enforce design and behaviours during development.</Description>
   </PropertyGroup>
 
 </Project>
