@@ -90,7 +90,10 @@ Information("fileVersion: " + fileVersion);
 // Artifacts
 var artifactDirectory = "./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
-var packageWhitelist = new[] { "NetTestRegimentation" };
+var packageWhitelist = new[] {
+ "NetTestRegimentation",
+ "NetTestRegimentation.Moq"
+};
 
 var runSonarQube = false;
 var sonarQubePreview = false;
