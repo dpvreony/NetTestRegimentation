@@ -24,6 +24,8 @@
     <!-- disable sourcelink on mono, to workaround https://github.com/dotnet/sourcelink/issues/155 -->
     <EnableSourceLink Condition=" '$(OS)' != 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core' ">false</EnableSourceLink>
     <EnableSourceControlManagerQueries>$(EnableSourceLink)</EnableSourceControlManagerQueries>    
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	<WarningsAsErrors />
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
