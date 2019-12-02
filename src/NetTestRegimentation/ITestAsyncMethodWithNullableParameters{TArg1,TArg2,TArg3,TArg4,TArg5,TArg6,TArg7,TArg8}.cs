@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace NetTestRegimentation
 {
-
+    /// <summary>
+    /// Unit Tests for a method that takes eight nullable parameters.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
     public interface ITestAsyncMethodWithNullableParameters<in TArg1, in TArg2, in TArg3, in TArg4, in TArg5, in TArg6, in TArg7, in TArg8>
     {
         Task ThrowsArgumentNullExceptionAsync(
