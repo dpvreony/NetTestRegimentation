@@ -19,6 +19,23 @@ namespace NetTestRegimentation
     /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
     public interface ITestAsyncMethodWithNullableParameters<in TArg1, in TArg2, in TArg3, in TArg4, in TArg5, in TArg6, in TArg7, in TArg8>
     {
+        /// <summary>
+        /// Check to ensure nullable parameters throw <see cref="System.ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st nullable argument.</param>
+        /// <param name="arg2">The 2nd nullable argument.</param>
+        /// <param name="arg3">The 3rd nullable argument.</param>
+        /// <param name="arg4">The 4th nullable argument.</param>
+        /// <param name="arg5">The 5th nullable argument.</param>
+        /// <param name="arg6">The 6th nullable argument.</param>
+        /// <param name="arg7">The 7th nullable argument.</param>
+        /// <param name="arg8">The 8th nullable argument.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentNullExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,

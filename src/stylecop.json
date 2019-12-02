@@ -35,7 +35,7 @@
         },
         "orderingRules": {
             "usingDirectivesPlacement": "outsideNamespace",
-            "systemUsingDirectives1st": true
-        },
+            "systemUsingDirectivesFirst": true
+        }
     }
 }
