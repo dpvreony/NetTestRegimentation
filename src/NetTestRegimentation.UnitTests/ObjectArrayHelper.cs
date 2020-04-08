@@ -9,8 +9,16 @@ using Moq;
 
 namespace NetTestRegimentation.UnitTests
 {
+    /// <summary>
+    /// Helpers for producing testable object arrays for unit testing.
+    /// </summary>
     public static class ObjectArrayHelper
     {
+        /// <summary>
+        /// Gets an array of test objects for unit test member data sources.
+        /// </summary>
+        /// <param name="size">Size of the array.</param>
+        /// <returns>2 dimension array. 1st dimension is test scenario, 2nd is the arguments the method takes.</returns>
         public static object[][] GetArgObjectArrayOfArray(int size)
         {
             var result = new List<object[]>(size);
@@ -22,6 +30,12 @@ namespace NetTestRegimentation.UnitTests
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Gets an array of test objects for unit test member data sources.
+        /// </summary>
+        /// <param name="size">Size of the array.</param>
+        /// <param name="argumentToLeaveNull">1 based index of the argument to leave null.</param>
+        /// <returns>array. this is for the number of arguments the method takes.</returns>
         public static object[] GetArgObjectArray(
             int size,
             int argumentToLeaveNull)
@@ -37,6 +51,11 @@ namespace NetTestRegimentation.UnitTests
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Gets an array of test objects for unit test member data sources utilising Moq.
+        /// </summary>
+        /// <param name="size">Size of the array.</param>
+        /// <returns>2 dimension array. 1st dimension is test scenario, 2nd is the arguments the method takes.</returns>
         public static object[][] GetMoqArgObjectArrayOfArray(int size)
         {
             var result = new List<object[]>(size);
@@ -48,6 +67,12 @@ namespace NetTestRegimentation.UnitTests
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Gets an array of test moq objects for unit test member data sources.
+        /// </summary>
+        /// <param name="size">Size of the array.</param>
+        /// <param name="argumentToLeaveNull">1 based index of the argument to leave null.</param>
+        /// <returns>array. this is for the number of arguments the method takes.</returns>
         public static object[] GetMoqArgObjectArray(
             int size,
             int argumentToLeaveNull)

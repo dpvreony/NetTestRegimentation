@@ -4,6 +4,11 @@
 
 namespace NetTestRegimentation
 {
+    public interface ITestMethodWithRangeParameters
+    {
+        void ThrowsArgumentOutOfRangeException();
+    }
+
     public interface ITestMethodWithRangeParameters<in TArg>
     {
         void ThrowsArgumentOutOfRangeException(

@@ -13,6 +13,7 @@ namespace NetTestRegimentation.UnitTests
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithNullableParametersT15Test
     {
+        /// <inheritdoc />
         public sealed class Throws : ITestAsyncMethodWithNullableParameters<
             FakeObject,
             FakeObject,
@@ -30,8 +31,12 @@ namespace NetTestRegimentation.UnitTests
             FakeObject,
             FakeObject>
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = ObjectArrayHelper.GetArgObjectArrayOfArray(15);
+            /// <summary>
+            /// Gets the Test Data Source for the <see cref="ThrowsArgumentNullExceptionAsync"/> method.
+            /// </summary>
+            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource => ObjectArrayHelper.GetArgObjectArrayOfArray(15);
 
+            /// <inheritdoc />
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestSource))]
             public async Task ThrowsArgumentNullExceptionAsync(
@@ -68,7 +73,7 @@ namespace NetTestRegimentation.UnitTests
                     arg13,
                     arg14,
                     arg15,
-                    expectedParameterNameForException));
+                    expectedParameterNameForException)).ConfigureAwait(false);
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

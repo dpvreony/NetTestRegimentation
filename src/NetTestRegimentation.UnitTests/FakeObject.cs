@@ -8,10 +8,10 @@ using System.Text;
 
 namespace NetTestRegimentation.UnitTests
 {
+    /// <summary>
+    /// Fake object for testing.
+    /// </summary>
     public class FakeObject : IFakeObject
-    {
-    }
-    public interface IFakeObject
     {
     }
 }

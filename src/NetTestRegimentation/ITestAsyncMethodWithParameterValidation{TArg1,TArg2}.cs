@@ -7,23 +7,26 @@ using System.Threading.Tasks;
 namespace NetTestRegimentation
 {
     /// <summary>
-    /// Unit Tests for a method that a nullable parameter.
+    /// Unit Tests for Async Methods that contain 2 parameters that need validation.
     /// </summary>
-    /// <typeparam name="TArg">Type for the argument.</typeparam>
-    public interface ITestAsyncMethodWithNullableParameters<in TArg>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    public interface ITestAsyncMethodWithParameterValidation<in TArg1, in TArg2>
     {
         /// <summary>
-        /// Check to ensure nullable parameters throw <see cref="System.ArgumentNullException"/>.
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentException"/>.
         /// </summary>
-        /// <param name="arg">The nullable argument.</param>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
         /// <param name="expectedParameterNameForException">
         /// The name of the parameter expected to throw an exception.
         /// </param>
         /// <returns>
         /// A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
-        Task ThrowsArgumentNullExceptionAsync(
-            TArg arg,
+        Task ThrowsArgumentExceptionAsync(
+            TArg1 arg1,
+            TArg2 arg2,
             string expectedParameterNameForException);
     }
 }
