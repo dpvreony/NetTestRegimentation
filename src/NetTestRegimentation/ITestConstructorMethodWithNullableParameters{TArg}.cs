@@ -7,7 +7,7 @@ namespace NetTestRegimentation
     /// <summary>
     /// Unit Tests for a constructor method that takes a nullable parameter.
     /// </summary>
-    /// <typeparam name="TArg">The type for the argument</typeparam>
+    /// <typeparam name="TArg">The type for the argument.</typeparam>
     public interface ITestConstructorMethodWithNullableParameters<in TArg>
         : ITestConstructorMethod, NetTestRegimentation.ITestMethodWithNullableParameters<TArg>
     {

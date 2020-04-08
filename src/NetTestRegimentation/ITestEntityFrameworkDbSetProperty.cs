@@ -4,10 +4,19 @@
 
 namespace NetTestRegimentation
 {
+    /// <summary>
+    /// Unit Tests for an Entity Framework DB Set Property.
+    /// </summary>
     public interface ITestEntityFrameworkDbSetProperty
     {
+        /// <summary>
+        /// Tests to ensure a DBSet allows insert.
+        /// </summary>
         void AllowsInsert();
 
+        /// <summary>
+        /// Test to ensure a DBSet doesn't allow inserts of duplicate keys.
+        /// </summary>
         void PreventsDuplicateInsert();
     }
 }

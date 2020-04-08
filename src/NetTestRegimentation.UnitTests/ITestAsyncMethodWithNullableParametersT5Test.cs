@@ -10,9 +10,13 @@ using Xunit;
 
 namespace NetTestRegimentation.UnitTests
 {
+    /// <summary>
+    /// Unit Tests for 5 nullable parameters.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithNullableParametersT5Test
     {
+#pragma warning disable CA1034 // Nested types should not be visible
         /// <inheritdoc />
         public sealed class Throws : ITestAsyncMethodWithNullableParameters<
             FakeObject,
@@ -42,10 +46,10 @@ namespace NetTestRegimentation.UnitTests
                     arg2,
                     arg3,
                     arg4,
-                    arg5,
-                    expectedParameterNameForException)).ConfigureAwait(false);
+                    arg5)).ConfigureAwait(false);
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }
+#pragma warning restore CA1034 // Nested types should not be visible
     }
 }

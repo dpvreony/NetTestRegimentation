@@ -6,23 +6,72 @@ using System.Threading.Tasks;
 
 namespace NetTestRegimentation
 {
+#pragma warning disable SA1402 // File may only contain a single type
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 1 parameter that needs range validation.
+    /// </summary>
+    /// <typeparam name="TArg">Type for the argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg">The 1st argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg arg,
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 2 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 3 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2, in TArg3>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -30,8 +79,28 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 4 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2, in TArg3, in TArg4>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -40,8 +109,30 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 5 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2, in TArg3, in TArg4, in TArg5>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -51,8 +142,32 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 6 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2, in TArg3, in TArg4, in TArg5, in TArg6>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -63,8 +178,34 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 7 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2, in TArg3, in TArg4, in TArg5, in TArg6, in TArg7>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -76,8 +217,36 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<in TArg1, in TArg2, in TArg3, in TArg4, in TArg5, in TArg6, in TArg7, in TArg8>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -90,6 +259,18 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -101,6 +282,24 @@ namespace NetTestRegimentation
         in TArg8,
         in TArg9>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -114,6 +313,19 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -126,6 +338,25 @@ namespace NetTestRegimentation
         in TArg9,
         in TArg10>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -140,6 +371,20 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
+    /// <typeparam name="TArg11">Type for the 11th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -153,6 +398,26 @@ namespace NetTestRegimentation
         in TArg10,
         in TArg11>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="arg11">The 11th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -168,6 +433,21 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
+    /// <typeparam name="TArg11">Type for the 11th argument.</typeparam>
+    /// <typeparam name="TArg12">Type for the 12th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -182,6 +462,27 @@ namespace NetTestRegimentation
         in TArg11,
         in TArg12>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="arg11">The 11th argument that takes validation.</param>
+        /// <param name="arg12">The 12th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -198,6 +499,22 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
+    /// <typeparam name="TArg11">Type for the 11th argument.</typeparam>
+    /// <typeparam name="TArg12">Type for the 12th argument.</typeparam>
+    /// <typeparam name="TArg13">Type for the 13th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -213,6 +530,28 @@ namespace NetTestRegimentation
         in TArg12,
         in TArg13>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="arg11">The 11th argument that takes validation.</param>
+        /// <param name="arg12">The 12th argument that takes validation.</param>
+        /// <param name="arg13">The 13th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -230,6 +569,23 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
+    /// <typeparam name="TArg11">Type for the 11th argument.</typeparam>
+    /// <typeparam name="TArg12">Type for the 12th argument.</typeparam>
+    /// <typeparam name="TArg13">Type for the 13th argument.</typeparam>
+    /// <typeparam name="TArg14">Type for the 14th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -246,6 +602,29 @@ namespace NetTestRegimentation
         in TArg13,
         in TArg14>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="arg11">The 11th argument that takes validation.</param>
+        /// <param name="arg12">The 12th argument that takes validation.</param>
+        /// <param name="arg13">The 13th argument that takes validation.</param>
+        /// <param name="arg14">The 14th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -264,6 +643,24 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 15 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
+    /// <typeparam name="TArg11">Type for the 11th argument.</typeparam>
+    /// <typeparam name="TArg12">Type for the 12th argument.</typeparam>
+    /// <typeparam name="TArg13">Type for the 13th argument.</typeparam>
+    /// <typeparam name="TArg14">Type for the 14th argument.</typeparam>
+    /// <typeparam name="TArg15">Type for the 15th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -281,6 +678,30 @@ namespace NetTestRegimentation
         in TArg14,
         in TArg15>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="arg11">The 11th argument that takes validation.</param>
+        /// <param name="arg12">The 12th argument that takes validation.</param>
+        /// <param name="arg13">The 13th argument that takes validation.</param>
+        /// <param name="arg14">The 14th argument that takes validation.</param>
+        /// <param name="arg15">The 15th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -300,6 +721,25 @@ namespace NetTestRegimentation
             string expectedParameterNameForException);
     }
 
+    /// <summary>
+    /// Unit Tests for Async Methods that contain 16 parameters that need range validation.
+    /// </summary>
+    /// <typeparam name="TArg1">Type for the 1st argument.</typeparam>
+    /// <typeparam name="TArg2">Type for the 2nd argument.</typeparam>
+    /// <typeparam name="TArg3">Type for the 3rd argument.</typeparam>
+    /// <typeparam name="TArg4">Type for the 4th argument.</typeparam>
+    /// <typeparam name="TArg5">Type for the 5th argument.</typeparam>
+    /// <typeparam name="TArg6">Type for the 6th argument.</typeparam>
+    /// <typeparam name="TArg7">Type for the 7th argument.</typeparam>
+    /// <typeparam name="TArg8">Type for the 8th argument.</typeparam>
+    /// <typeparam name="TArg9">Type for the 9th argument.</typeparam>
+    /// <typeparam name="TArg10">Type for the 10th argument.</typeparam>
+    /// <typeparam name="TArg11">Type for the 11th argument.</typeparam>
+    /// <typeparam name="TArg12">Type for the 12th argument.</typeparam>
+    /// <typeparam name="TArg13">Type for the 13th argument.</typeparam>
+    /// <typeparam name="TArg14">Type for the 14th argument.</typeparam>
+    /// <typeparam name="TArg15">Type for the 15th argument.</typeparam>
+    /// <typeparam name="TArg16">Type for the 16th argument.</typeparam>
     public interface ITestAsyncMethodWithRangeParameters<
         in TArg1,
         in TArg2,
@@ -318,6 +758,31 @@ namespace NetTestRegimentation
         in TArg15,
         in TArg16>
     {
+        /// <summary>
+        /// Check to ensure parameters requiring validation throw <see cref="System.ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="arg1">The 1st argument that takes validation.</param>
+        /// <param name="arg2">The 2nd argument that takes validation.</param>
+        /// <param name="arg3">The 3rd argument that takes validation.</param>
+        /// <param name="arg4">The 4th argument that takes validation.</param>
+        /// <param name="arg5">The 5th argument that takes validation.</param>
+        /// <param name="arg6">The 6th argument that takes validation.</param>
+        /// <param name="arg7">The 7th argument that takes validation.</param>
+        /// <param name="arg8">The 8th argument that takes validation.</param>
+        /// <param name="arg9">The 9th argument that takes validation.</param>
+        /// <param name="arg10">The 10th argument that takes validation.</param>
+        /// <param name="arg11">The 11th argument that takes validation.</param>
+        /// <param name="arg12">The 12th argument that takes validation.</param>
+        /// <param name="arg13">The 13th argument that takes validation.</param>
+        /// <param name="arg14">The 14th argument that takes validation.</param>
+        /// <param name="arg15">The 15th argument that takes validation.</param>
+        /// <param name="arg16">The 16th argument that takes validation.</param>
+        /// <param name="expectedParameterNameForException">
+        /// The name of the parameter expected to throw an exception.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation.
+        /// </returns>
         Task ThrowsArgumentOutOfRangeExceptionAsync(
             TArg1 arg1,
             TArg2 arg2,
@@ -337,4 +802,5 @@ namespace NetTestRegimentation
             TArg16 arg16,
             string expectedParameterNameForException);
     }
+#pragma warning restore SA1402 // File may only contain a single type
 }

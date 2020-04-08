@@ -13,9 +13,14 @@ using Xunit;
 
 namespace NetTestRegimentation.UnitTests.Moq
 {
+    /// <summary>
+    /// Unit Tests for 5 nullable parameters through Moq.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithMoqNullableParametersT5Test
     {
+#pragma warning disable CA1034 // Nested types should not be visible
+        /// <inheritdoc />
         public sealed class Throws : ITestAsyncMethodWithMoqNullableParameters<
             FakeObject,
             FakeObject,
@@ -23,8 +28,12 @@ namespace NetTestRegimentation.UnitTests.Moq
             FakeObject,
             FakeObject>
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = ObjectArrayHelper.GetMoqArgObjectArrayOfArray(5);
+            /// <summary>
+            /// Gets the Test Data Source for the <see cref="ThrowsArgumentNullExceptionAsync"/> method.
+            /// </summary>
+            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource => ObjectArrayHelper.GetMoqArgObjectArrayOfArray(5);
 
+            /// <inheritdoc />
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestSource))]
             public async Task ThrowsArgumentNullExceptionAsync(
@@ -40,10 +49,10 @@ namespace NetTestRegimentation.UnitTests.Moq
                     arg2?.Object,
                     arg3?.Object,
                     arg4?.Object,
-                    arg5?.Object,
-                    expectedParameterNameForException));
+                    arg5?.Object)).ConfigureAwait(false);
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }
+#pragma warning restore CA1034 // Nested types should not be visible
     }
 }

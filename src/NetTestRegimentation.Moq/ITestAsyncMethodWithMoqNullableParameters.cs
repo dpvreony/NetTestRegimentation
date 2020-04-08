@@ -4,6 +4,7 @@
 
 namespace NetTestRegimentation.Moq
 {
+#pragma warning disable SA1402 // File may only contain a single type
     /// <inheritdoc />
     public interface ITestAsyncMethodWithMoqNullableParameters<TArg>
         : ITestAsyncMethodWithNullableParameters<global::Moq.Mock<TArg>>
@@ -505,4 +506,5 @@ namespace NetTestRegimentation.Moq
         where TArg16 : class
     {
     }
+#pragma warning restore SA1402 // File may only contain a single type
 }
