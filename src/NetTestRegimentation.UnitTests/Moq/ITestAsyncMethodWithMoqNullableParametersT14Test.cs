@@ -1,4 +1,8 @@
-﻿using Moq;
+﻿// Copyright (c) 2019 dpvreony and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using Moq;
 using NetTestRegimentation.Moq;
 using System;
 using System.Collections.Generic;
@@ -9,9 +13,14 @@ using Xunit;
 
 namespace NetTestRegimentation.UnitTests.Moq
 {
+    /// <summary>
+    /// Unit Tests for 14 nullable parameters through Moq.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public static class ITestAsyncMethodWithMoqNullableParametersT14Test
     {
+#pragma warning disable CA1034 // Nested types should not be visible
+        /// <inheritdoc />
         public sealed class Throws : ITestAsyncMethodWithMoqNullableParameters<
             FakeObject,
             FakeObject,
@@ -28,8 +37,12 @@ namespace NetTestRegimentation.UnitTests.Moq
             FakeObject,
             FakeObject>
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource = ObjectArrayHelper.GetMoqArgObjectArrayOfArray(14);
+            /// <summary>
+            /// Gets the Test Data Source for the <see cref="ThrowsArgumentNullExceptionAsync"/> method.
+            /// </summary>
+            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestSource => ObjectArrayHelper.GetMoqArgObjectArrayOfArray(14);
 
+            /// <inheritdoc />
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestSource))]
             public async Task ThrowsArgumentNullExceptionAsync(
@@ -63,10 +76,10 @@ namespace NetTestRegimentation.UnitTests.Moq
                     arg11?.Object,
                     arg12?.Object,
                     arg13?.Object,
-                    arg14?.Object,
-                    expectedParameterNameForException));
+                    arg14?.Object)).ConfigureAwait(false);
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }
+#pragma warning restore CA1034 // Nested types should not be visible
     }
 }
