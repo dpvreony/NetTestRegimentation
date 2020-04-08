@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Moq;
 
@@ -46,7 +47,7 @@ namespace NetTestRegimentation.UnitTests
                 result.Add((i == argumentToLeaveNull) ? null : new FakeObject());
             }
 
-            result.Add($"arg{argumentToLeaveNull}");
+            result.Add($"arg{(size > 1 ? argumentToLeaveNull.ToString(NumberFormatInfo.InvariantInfo) : string.Empty)}");
 
             return result.ToArray();
         }
@@ -83,7 +84,7 @@ namespace NetTestRegimentation.UnitTests
                 result.Add((i == argumentToLeaveNull) ? null : new Mock<FakeObject>());
             }
 
-            result.Add($"arg{argumentToLeaveNull}");
+            result.Add($"arg{(size > 1 ? argumentToLeaveNull.ToString(NumberFormatInfo.InvariantInfo) : string.Empty)}");
 
             return result.ToArray();
         }
