@@ -4,4 +4,14 @@
     <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="xunit.abstractions" Version="2.0.3" />
+    <PackageReference Include="xunit.assert" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
+  </ItemGroup>
+
 </Project>
