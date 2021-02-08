@@ -32,13 +32,11 @@ namespace NetTestRegimentation.XUnit
         {
             var arg1 = this.GetValidConstructorArg1();
             var arg2 = this.GetValidConstructorArg2();
-            var factory = this.GetInstance(arg1, arg2);
+            var instance = this.GetInstance(arg1, arg2);
+            Assert.NotNull(instance);
         }
 
-#error https://github.com/xunit/xunit/blob/master/src/xunit.execution/Sdk/Frameworks/TheoryDiscoverer.cs
-
         /// <inheritdoc/>
-        [ClassData(typeof(TThrowsArgumentNullExceptionTestSource))]
         [Theory]
         public void ThrowsArgumentNullException(
             TArg1 arg1,

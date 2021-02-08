@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestSources\" />
   </ItemGroup>
 
 </Project>

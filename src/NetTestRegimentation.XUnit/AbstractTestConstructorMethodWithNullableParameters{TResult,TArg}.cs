@@ -15,24 +15,16 @@ namespace NetTestRegimentation.XUnit
     public abstract class AbstractTestConstructorMethodWithNullableParameters<TResult, TArg> : ITestConstructorMethodWithNullableParameters<TArg>
         where TResult : class
     {
-        /// <summary>
-        /// Gets the Test Member Data for ThrowsArgumentNullException.
-        /// </summary>
-        /// <remarks>
-        /// This is here to satisfy the convention based execution of XUnit member data properties.
-        /// </remarks>
-        public TheoryData<TArg, string> MemberDataThrowsArgumentNullException => this.GetThrowsArgumentNullExceptionTestSource();
-
         /// <inheritdoc/>
         [Fact]
         public void ReturnsInstance()
         {
             var arg = this.GetValidConstructorArg();
-            var factory = this.GetInstance(arg);
+            var instance = this.GetInstance(arg);
+            Assert.NotNull(instance);
         }
 
         /// <inheritdoc/>
-        [MemberData(nameof(MemberDataThrowsArgumentNullException))]
         [Theory]
         public void ThrowsArgumentNullException(
             TArg arg,
