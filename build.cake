@@ -101,19 +101,6 @@ var sonarQubeLogin = EnvironmentVariable("sonarqubeLogin");
 var sonarqubeProjectKey = "NetTestRegimentation";
 var sonarqubeOrganisationKey = "dpvreony-github";
 
-// sonarqube
-if (isRepository && !local && sonarQubeLogin != null) {
-    if (isPullRequest) { 
-        sonarQubePreview = true;
-        runSonarQube = true;
-        Information("Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
-    }
-    else if (isReleaseBranch) {
-        runSonarQube = true;
-        Information("Sonar on branch " + AppVeyor.Environment.Repository.Branch);
-    }
-}
-
 
 // Define global marcos.
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
