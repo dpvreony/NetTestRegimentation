@@ -22,7 +22,7 @@
 #tool "nuget:?package=xunit.runner.console&version=2.4.0"
 #tool "nuget:?package=GitVersion.CommandLine&version=3.6.5"
 #tool "nuget:?package=MSBuild.SonarQube.Runner.Tool"
-#tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
+#tool "dotnet:?package=dotnet-sonarscanner&version=5.2.1"
 #tool "nuget:?package=docfx.console&version=2.40.5"
 
 //////////////////////////////////////////////////////////////////////
