@@ -17,8 +17,8 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: src\Dhgms.Nucleotide.sln
-      unittestprojectpath: src\Dhgms.Nucleotide.UnitTests\Dhgms.Nucleotide.UnitTests.csproj
+      solutionpath: src\NetTestRegimentation.sln
+      unittestprojectpath: src\NetTestRegimentation.UnitTests\NetTestRegimentation.UnitTests.csproj
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
