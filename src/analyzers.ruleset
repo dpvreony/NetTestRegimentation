@@ -9,6 +9,7 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1000" Action="None" />
+    <Rule Id="CA1014" Action="None" />
     <Rule Id="CA1030" Action="None" />
     <Rule Id="CA1033" Action="None" />
     <Rule Id="CA1001" Action="Error" />
