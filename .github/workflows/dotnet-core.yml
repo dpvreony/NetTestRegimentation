@@ -25,15 +25,15 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-
     - name: Setup .NET 5
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
 
     - name: NBGV
       id: nbgv
@@ -86,11 +86,6 @@ jobs:
     - name: List outdated packages
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
-
-
-    - name: Run Resharper Duplicate Code Finder
-      run: |
-        jb dupfinder ${{ env.solutionpath }} -o=artifacts\dupfinder\report.xml
 
 # only store binlog on failure      
     - name: store binlogs
