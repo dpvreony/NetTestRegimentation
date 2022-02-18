@@ -24,7 +24,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: windows-2022
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -54,11 +54,10 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-
-    - name: Setup .NET Core
+    - name: Setup .NET 6
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.*
+        dotnet-version: 6.0.*
 
     - name: Restore Packages
       run: |
@@ -66,8 +65,7 @@ jobs:
 
     - name: Run Build
       run: |
-        dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog
-
+        dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:UseSharedCompilation=false
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
