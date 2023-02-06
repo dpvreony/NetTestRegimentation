@@ -43,6 +43,41 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
             NamedParameterInput<T6> parameter6Input,
             NamedParameterInput<T7> parameter7Input)
         {
+            if (parameter1Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter1Input));
+            }
+
+            if (parameter2Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter2Input));
+            }
+
+            if (parameter3Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter3Input));
+            }
+
+            if (parameter4Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter4Input));
+            }
+
+            if (parameter5Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter5Input));
+            }
+
+            if (parameter6Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter6Input));
+            }
+
+            if (parameter7Input == null)
+            {
+                throw new System.ArgumentNullException(nameof(parameter7Input));
+            }
+
             Add(
                 default,
                 parameter2Input.ValidValue(),

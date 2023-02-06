@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using NetTestRegimentation.XUnit.Runtime;
 
 namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
 {
@@ -22,6 +23,7 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
         /// <param name="validValueFunc">Func to return a valid value for the parameter being tested.</param>
         public NamedParameterInput(string name, Func<TResult> validValueFunc)
         {
+            name.ThrowIfNullOrWhitespace(nameof(name));
             Name = name;
             _validValueFunc = validValueFunc ?? throw new System.ArgumentNullException(nameof(validValueFunc));
         }

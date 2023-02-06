@@ -2,6 +2,10 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using Microsoft;
+using NetTestRegimentation.XUnit.Runtime;
+using ArgumentException = System.ArgumentException;
+
 namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
 {
     /// <summary>
@@ -16,8 +20,10 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionTheoryData{T}"/> class.
         /// </summary>
         /// <param name="parameterName">Name of the parameter that should throw the <see cref="ArgumentNullException"/>.</param>
-        public ArgumentNullExceptionTheoryData(string parameterName)
+        public ArgumentNullExceptionTheoryData([ValidatedNotNull]string parameterName)
         {
+            parameterName.ThrowIfNullOrWhitespace(nameof(parameterName));
+
             Add(default, parameterName);
         }
     }
