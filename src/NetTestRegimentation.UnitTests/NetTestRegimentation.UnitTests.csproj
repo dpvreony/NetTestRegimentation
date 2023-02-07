@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>net48;netcoreapp6.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NetTestRegimentation.Moq\NetTestRegimentation.Moq.csproj" />
     <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="XUnit\Theories\" />
   </ItemGroup>
 
 </Project>
