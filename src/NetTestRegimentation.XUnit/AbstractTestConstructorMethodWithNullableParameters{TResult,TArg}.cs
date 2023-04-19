@@ -19,8 +19,8 @@ namespace NetTestRegimentation.XUnit
         [Fact]
         public void ReturnsInstance()
         {
-            var arg = this.GetValidConstructorArg();
-            var instance = this.GetInstance(arg);
+            var arg = GetValidConstructorArg();
+            var instance = GetInstance(arg);
             Assert.NotNull(instance);
         }
 
@@ -30,7 +30,7 @@ namespace NetTestRegimentation.XUnit
             TArg arg,
             string expectedParameterNameForException)
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => this.GetInstance(arg));
+            var exception = Assert.Throws<ArgumentNullException>(() => GetInstance(arg));
 
             Assert.Equal(
                 expectedParameterNameForException,

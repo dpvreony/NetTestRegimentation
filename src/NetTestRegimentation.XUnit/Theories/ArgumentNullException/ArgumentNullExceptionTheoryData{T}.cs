@@ -4,7 +4,6 @@
 
 using Microsoft;
 using NetTestRegimentation.XUnit.Runtime;
-using ArgumentException = System.ArgumentException;
 
 namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
 {
