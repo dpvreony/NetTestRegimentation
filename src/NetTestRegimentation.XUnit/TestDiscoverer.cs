@@ -28,6 +28,7 @@ namespace NetTestRegimentation.XUnit
         /// <inheritdoc/>
         public IEnumerable<object[]> GetData(IAttributeInfo dataAttribute, IMethodInfo testMethod)
         {
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>

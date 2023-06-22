@@ -24,15 +24,15 @@ namespace NetTestRegimentation.XUnit
         /// <remarks>
         /// This is here to satisfy the convention based execution of XUnit member data properties.
         /// </remarks>
-        public TheoryData<TArg1, TArg2, string> MemberDataThrowsArgumentNullException => this.GetThrowsArgumentNullExceptionTestSource();
+        public TheoryData<TArg1, TArg2, string> MemberDataThrowsArgumentNullException => GetThrowsArgumentNullExceptionTestSource();
 
         /// <inheritdoc/>
         [Fact]
         public void ReturnsInstance()
         {
-            var arg1 = this.GetValidConstructorArg1();
-            var arg2 = this.GetValidConstructorArg2();
-            var instance = this.GetInstance(arg1, arg2);
+            var arg1 = GetValidConstructorArg1();
+            var arg2 = GetValidConstructorArg2();
+            var instance = GetInstance(arg1, arg2);
             Assert.NotNull(instance);
         }
 
@@ -43,7 +43,7 @@ namespace NetTestRegimentation.XUnit
             TArg2 arg2,
             string expectedParameterNameForException)
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => this.GetInstance(arg1, arg2));
+            var exception = Assert.Throws<ArgumentNullException>(() => GetInstance(arg1, arg2));
 
             Assert.Equal(
                 expectedParameterNameForException,

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestRegimentation", "NetTestRegimentation\NetTestRegimentation.csproj", "{F1E91E4A-554C-42DC-8570-0349C1A56C18}"
 EndProject
@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestRegimentation.UnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestRegimentation.Moq", "NetTestRegimentation.Moq\NetTestRegimentation.Moq.csproj", "{CC4B853A-469F-4A7E-ACD5-881CE2CEBC6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.XUnit", "NetTestRegimentation.XUnit\NetTestRegimentation.XUnit.csproj", "{9D090858-E187-4E99-B201-97166988C144}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestRegimentation.XUnit", "NetTestRegimentation.XUnit\NetTestRegimentation.XUnit.csproj", "{9D090858-E187-4E99-B201-97166988C144}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.XUnit.ApplicationInsights", "NetTestRegimentation.XUnit.ApplicationInsights\NetTestRegimentation.XUnit.ApplicationInsights.csproj", "{88FB2C7B-877C-4750-B06C-2E43EBC6ED67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9D090858-E187-4E99-B201-97166988C144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D090858-E187-4E99-B201-97166988C144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D090858-E187-4E99-B201-97166988C144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88FB2C7B-877C-4750-B06C-2E43EBC6ED67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88FB2C7B-877C-4750-B06C-2E43EBC6ED67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88FB2C7B-877C-4750-B06C-2E43EBC6ED67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88FB2C7B-877C-4750-B06C-2E43EBC6ED67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
