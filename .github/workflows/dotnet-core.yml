@@ -21,7 +21,7 @@ jobs:
       unittestprojectpath: src\NetTestRegimentation.UnitTests\NetTestRegimentation.UnitTests.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
         
@@ -141,7 +141,7 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
