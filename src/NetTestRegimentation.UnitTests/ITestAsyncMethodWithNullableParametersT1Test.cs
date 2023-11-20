@@ -32,7 +32,7 @@ namespace NetTestRegimentation.UnitTests
                 FakeObject arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg)).ConfigureAwait(false);
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }
