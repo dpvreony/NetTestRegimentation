@@ -43,7 +43,7 @@ namespace NetTestRegimentation.UnitTests.Moq
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(
                     arg1?.Object,
                     arg2?.Object,
-                    arg3?.Object)).ConfigureAwait(false);
+                    arg3?.Object));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

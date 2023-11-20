@@ -40,7 +40,7 @@ namespace NetTestRegimentation.UnitTests
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(
                     arg1,
                     arg2,
-                    arg3)).ConfigureAwait(false);
+                    arg3));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

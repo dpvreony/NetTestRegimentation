@@ -35,7 +35,7 @@ namespace NetTestRegimentation.UnitTests.Moq
                 Mock<FakeObject> arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg?.Object)).ConfigureAwait(false);
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => ArgumentHelpers.ThrowIfNullAsync(arg?.Object));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

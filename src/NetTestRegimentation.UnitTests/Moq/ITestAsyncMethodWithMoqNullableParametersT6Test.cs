@@ -52,7 +52,7 @@ namespace NetTestRegimentation.UnitTests.Moq
                     arg3?.Object,
                     arg4?.Object,
                     arg5?.Object,
-                    arg6?.Object)).ConfigureAwait(false);
+                    arg6?.Object));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }

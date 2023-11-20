@@ -61,7 +61,7 @@ namespace NetTestRegimentation.UnitTests
                     arg7,
                     arg8,
                     arg9,
-                    arg10)).ConfigureAwait(false);
+                    arg10));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }
