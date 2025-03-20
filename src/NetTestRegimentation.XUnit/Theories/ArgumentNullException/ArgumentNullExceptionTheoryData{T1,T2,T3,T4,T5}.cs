@@ -35,30 +35,15 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
             NamedParameterInput<T4> parameter4Input,
             NamedParameterInput<T5> parameter5Input)
         {
-            if (parameter1Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter1Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter1Input);
 
-            if (parameter2Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter2Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter2Input);
 
-            if (parameter3Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter3Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter3Input);
 
-            if (parameter4Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter4Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter4Input);
 
-            if (parameter5Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter5Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter5Input);
 
             Add(
                 default,

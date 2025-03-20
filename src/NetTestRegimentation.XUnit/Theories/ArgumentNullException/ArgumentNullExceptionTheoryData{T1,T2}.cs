@@ -23,15 +23,9 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
             NamedParameterInput<T1> parameter1Input,
             NamedParameterInput<T2> parameter2Input)
         {
-            if (parameter1Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter1Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter1Input);
 
-            if (parameter2Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter2Input));
-            }
+            System.ArgumentNullException.ThrowIfNull(parameter2Input);
 
             Add(default, parameter2Input.ValidValue(), parameter1Input.Name);
             Add(parameter1Input.ValidValue(), default, parameter2Input.Name);
