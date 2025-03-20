@@ -27,12 +27,12 @@ internal sealed class TestLoggerLogger : ILogger
     private static ImmutableStack<object> CurrentScopeStack
     {
         get => _currentScopeStack.Value?.Value ?? ImmutableStack.Create<object>();
-        set => _currentScopeStack.Value = new Wrapper { Value = value };
+        set => _currentScopeStack.Value = new Wrapper(value);
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
-        ArgumentNullException.ThrowIfNull(state);
+        Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(state);
 
         if (!_logger.IsEnabled(_categoryName, logLevel))
         {
@@ -40,15 +40,12 @@ internal sealed class TestLoggerLogger : ILogger
         }
 
         object[] scopes = _logger.Options.IncludeScopes ? CurrentScopeStack.Reverse().ToArray() : [];
-        var logEntry = new LogEntry
+        var logEntry = new LogEntry(_logger.Options.GetNow(), _categoryName, logLevel, state!, (s, e) => formatter((TState)s, e))
         {
             Date = _logger.Options.GetNow(),
             LogLevel = logLevel,
             EventId = eventId,
-            State = state,
             Exception = exception,
-            Formatter = (s, e) => formatter((TState)s, e),
-            CategoryName = _categoryName,
             Scopes = scopes
         };
 
@@ -103,6 +100,11 @@ internal sealed class TestLoggerLogger : ILogger
 
     private sealed class Wrapper
     {
-        public required ImmutableStack<object> Value { get; init; }
+        internal Wrapper(ImmutableStack<object> value)
+        {
+            Value = value;
+        }
+
+        public ImmutableStack<object> Value { get; }
     }
 }

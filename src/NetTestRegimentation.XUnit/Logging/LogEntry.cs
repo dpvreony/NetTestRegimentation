@@ -11,22 +11,39 @@ namespace NetTestRegimentation.XUnit.Logging
     /// <summary>
     /// Represents a log entry.
     /// </summary>
-    public class LogEntry
+    public sealed class LogEntry
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogEntry"/> class.
+        /// </summary>
+        /// <param name="date">The date and time of the log entry.</param>
+        /// <param name="categoryName">The category name of the log entry.</param>
+        /// <param name="logLevel">The log level of the log entry.</param>
+        /// <param name="state">The state of the log entry.</param>
+        /// <param name="formatter">The formatter of the log entry.</param>
+        public LogEntry(DateTimeOffset date, string categoryName, LogLevel logLevel, object state, Func<object, Exception?, string> formatter)
+        {
+            Date = date;
+            CategoryName = categoryName;
+            LogLevel = logLevel;
+            State = state;
+            Formatter = formatter;
+        }
+
         /// <summary>
         /// Gets or sets the date and time of the log entry.
         /// </summary>
-        public required DateTimeOffset Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         /// <summary>
         /// Gets or sets the category name of the log entry.
         /// </summary>
-        public required string CategoryName { get; set; }
+        public string CategoryName { get; set; }
 
         /// <summary>
         /// Gets or sets the log level of the log entry.
         /// </summary>
-        public required LogLevel LogLevel { get; set; }
+        public LogLevel LogLevel { get; set; }
 
         /// <summary>
         /// Gets or sets the scopes of the log entry.
@@ -43,7 +60,7 @@ namespace NetTestRegimentation.XUnit.Logging
         /// <summary>
         /// Gets or sets the state of the log entry.
         /// </summary>
-        public required object State { get; set; }
+        public object State { get; set; }
 
         /// <summary>
         /// Gets or sets the exception of the log entry.
@@ -53,7 +70,7 @@ namespace NetTestRegimentation.XUnit.Logging
         /// <summary>
         /// Gets or sets the formatter of the log entry.
         /// </summary>
-        public required Func<object, Exception?, string> Formatter { get; set; }
+        public Func<object, Exception?, string> Formatter { get; set; }
 
         /// <summary>
         /// Gets the properties of the log entry.

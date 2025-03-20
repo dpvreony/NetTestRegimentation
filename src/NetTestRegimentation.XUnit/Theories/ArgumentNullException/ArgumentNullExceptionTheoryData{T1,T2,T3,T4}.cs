@@ -31,13 +31,13 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
             NamedParameterInput<T3> parameter3Input,
             NamedParameterInput<T4> parameter4Input)
         {
-            System.ArgumentNullException.ThrowIfNull(parameter1Input);
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter1Input);
 
-            System.ArgumentNullException.ThrowIfNull(parameter2Input);
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter2Input);
 
-            System.ArgumentNullException.ThrowIfNull(parameter3Input);
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter3Input);
 
-            System.ArgumentNullException.ThrowIfNull(parameter4Input);
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter4Input);
 
             Add(
                 default,
