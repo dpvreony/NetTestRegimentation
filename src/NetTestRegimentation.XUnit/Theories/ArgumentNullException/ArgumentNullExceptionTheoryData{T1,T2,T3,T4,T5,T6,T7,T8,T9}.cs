@@ -51,50 +51,23 @@ namespace NetTestRegimentation.XUnit.Theories.ArgumentNullException
             NamedParameterInput<T8> parameter8Input,
             NamedParameterInput<T9> parameter9Input)
         {
-            if (parameter1Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter1Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter1Input);
 
-            if (parameter2Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter2Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter2Input);
 
-            if (parameter3Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter3Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter3Input);
 
-            if (parameter4Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter4Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter4Input);
 
-            if (parameter5Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter5Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter5Input);
 
-            if (parameter6Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter6Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter6Input);
 
-            if (parameter7Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter7Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter7Input);
 
-            if (parameter8Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter8Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter8Input);
 
-            if (parameter9Input == null)
-            {
-                throw new System.ArgumentNullException(nameof(parameter9Input));
-            }
+            Whipstaff.Runtime.Exceptions.ArgumentNullException.ThrowIfNull(parameter9Input);
 
             Add(
                 default,

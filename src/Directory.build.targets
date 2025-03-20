@@ -1,4 +1,10 @@
 <Project>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <DefineConstants>$(DefineConstants);NETSTANDARD;PORTABLE;ARGUMENT_NULL_EXCEPTION_SHIM</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
+    <DefineConstants>$(DefineConstants);CALLER_ARGUMENT_EXPRESSION_SHIM;IS_EXTERNAL_INIT_SHIM</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <DefineConstants>$(DefineConstants);NET_45;XAML</DefineConstants>
   </PropertyGroup>
