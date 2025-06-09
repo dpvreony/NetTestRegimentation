@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetTestRegimentation.Moq\NetTestRegimentation.Moq.csproj" />
     <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
   </ItemGroup>
 
