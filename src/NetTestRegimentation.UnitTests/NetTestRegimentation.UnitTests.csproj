@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
+    <Compile Remove="XUnit\**" />
+    <EmbeddedResource Remove="XUnit\**" />
+    <None Remove="XUnit\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="XUnit\Theories\" />
+    <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
   </ItemGroup>
 
 </Project>
