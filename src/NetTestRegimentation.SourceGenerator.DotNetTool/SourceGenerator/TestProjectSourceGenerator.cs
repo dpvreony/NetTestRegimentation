@@ -2,18 +2,15 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 {
+    /// <summary>
+    /// Source generator that generates code for a test project.
+    /// </summary>
     public sealed class TestProjectSourceGenerator : IIncrementalGenerator
     {
         /// <inheritdoc/>
@@ -38,7 +35,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
         private static string GetSafeFileName(INamedTypeSymbol symbol)
         {
-            var name = symbol.ToString();
+            var name = symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
             // Remove or replace other invalid filename characters
             var invalidChars = System.IO.Path.GetInvalidFileNameChars();
@@ -55,6 +52,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             INamedTypeSymbol namedTypeSymbol,
             ParseOptions parseOptions)
         {
+            var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName("UnitTest"));
             var cu = SyntaxFactory.CompilationUnit()
                 .AddMembers(namespaceDeclaration)
                 .NormalizeWhitespace();
