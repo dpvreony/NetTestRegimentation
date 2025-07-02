@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.XUnit"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.SourceGenerator.DotNetTool", "NetTestRegimentation.SourceGenerator.DotNetTool\NetTestRegimentation.SourceGenerator.DotNetTool.csproj", "{AAF10258-5C61-48F0-B882-6AB0CCBB48DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.IntegrationTests", "NetTestRegimentation.IntegrationTests\NetTestRegimentation.IntegrationTests.csproj", "{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AAF10258-5C61-48F0-B882-6AB0CCBB48DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAF10258-5C61-48F0-B882-6AB0CCBB48DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAF10258-5C61-48F0-B882-6AB0CCBB48DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
