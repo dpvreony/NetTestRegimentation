@@ -19,121 +19,21 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var classDeclarations = context.SyntaxProvider
-                .CreateSyntaxProvider(
-                    static (s, _) => s is ClassDeclarationSyntax,
-                    static (ctx, _) => ctx);
+            var allowedAssemblyNames = new[] { "MyReferencedAssembly", "OtherLib" };
 
-            // TODO: the combine syntax is horrid, pull the bunch of helpers from nucleotide that do this cleaner.
-            var trigger = classDeclarations.Combine(context.AnalyzerConfigOptionsProvider)
+            var classSymbols = context.CompilationProvider.SelectMany((compilation, token) => compilation.GlobalNamespace.GetTypeMembers())
                 .Combine(context.ParseOptionsProvider)
                 .Select(
                     (tuple1, _) => (
-                        SyntaxProvider: tuple1.Left.Left,
-                        AnalyzerConfigOptions: tuple1.Left.Right,
+                        NamedTypeSymbol: tuple1.Left,
                         ParseOptions: tuple1.Right));
 
-            var platformResolver = GetPlatformResolver();
-            var platformName = GetPlatformName();
-
             context.RegisterSourceOutput(
-                trigger,
-                (productionContext, tuple) => DoSourceGenerationForClass(
+                classSymbols,
+                static (productionContext, tuple) => DoGeneration(
                     productionContext,
-                    tuple.SyntaxProvider,
-                    tuple.AnalyzerConfigOptions,
-                    tuple.ParseOptions,
-                    platformResolver,
-                    platformName));
-        }
-
-        protected abstract string GetPlatformName();
-
-        protected abstract IPlatformResolver GetPlatformResolver();
-
-        private static void DoSourceGenerationForClass(
-            SourceProductionContext productionContext,
-            GeneratorSyntaxContext syntaxContext,
-            AnalyzerConfigOptionsProvider analyzerConfigOptionsProvider,
-            ParseOptions parseOptions,
-            IPlatformResolver platformResolver,
-            string platformName)
-        {
-            var configurationModel = ConfigurationFactory.Create(analyzerConfigOptionsProvider);
-
-            // it would be nice to cache some of this such as the platform resolver, but need to get it working first.
-            if (syntaxContext.SemanticModel.GetDeclaredSymbol(syntaxContext.Node) is not INamedTypeSymbol namedTypeSymbol)
-            {
-                return;
-            }
-
-            // Only process the first declaration of a partial class
-            var firstDeclaration = namedTypeSymbol.DeclaringSyntaxReferences
-                .Select(r => r.GetSyntax())
-                .OfType<ClassDeclarationSyntax>()
-                .OrderBy(s => s.SpanStart)
-                .FirstOrDefault();
-
-            if (syntaxContext.Node != firstDeclaration)
-            {
-                return;
-            }
-
-            if (!IsDesiredUiType(namedTypeSymbol, syntaxContext, productionContext, platformResolver))
-            {
-                return;
-            }
-
-            var memberDeclarationSyntaxes = new SyntaxList<MemberDeclarationSyntax>();
-
-            var rootNamespace = configurationModel.RootNamespace;
-
-            var classGenerators = GetClassGenerators();
-            var desiredNamespace = GetNamespace(rootNamespace, platformName);
-            foreach (var classGeneratorFactory in classGenerators)
-            {
-                var generator = classGeneratorFactory();
-                var generatedClass = generator.GenerateClass(
-                    namedTypeSymbol,
-                    platformResolver.GetBaseUiElement(),
-                    platformResolver.GetCommandInterface(),
-                    platformName,
-                    desiredNamespace,
-                    configurationModel.MakeClassesPublic,
-                    configurationModel.IncludeObsoleteItems,
-                    platformResolver.GetCommandInterface());
-
-                memberDeclarationSyntaxes = memberDeclarationSyntaxes.Add(generatedClass);
-            }
-
-            // We need the controls namespace as the generator makes assumptions about the placing of the bound and unbound control binding model classes.
-            var controlNamespace = namedTypeSymbol.ContainingNamespace.ToString();
-
-            var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName($"{desiredNamespace}.{controlNamespace}"));
-            namespaceDeclaration = namespaceDeclaration
-                .WithMembers(memberDeclarationSyntaxes);
-            var nullableDirectiveTrivia = SyntaxFactory.NullableDirectiveTrivia(SyntaxFactory.Token(SyntaxKind.EnableKeyword), true);
-            var trivia = SyntaxFactory.Trivia(nullableDirectiveTrivia);
-            var leadingSyntaxTriviaList = SyntaxFactory.TriviaList(trivia);
-
-            namespaceDeclaration = namespaceDeclaration.WithLeadingTrivia(leadingSyntaxTriviaList);
-
-            var cu = SyntaxFactory.CompilationUnit()
-                .AddMembers(namespaceDeclaration)
-                .NormalizeWhitespace();
-
-            var sourceText = SyntaxFactory.SyntaxTree(
-                    cu,
-                    parseOptions,
-                    encoding: Encoding.UTF8)
-                .GetText();
-
-            var hintName = $"{GetSafeFileName(namedTypeSymbol)}.g.cs";
-
-            productionContext.AddSource(
-                hintName,
-                sourceText);
-
+                    tuple.NamedTypeSymbol,
+                    tuple.ParseOptions));
         }
 
         private static string GetSafeFileName(INamedTypeSymbol symbol)
@@ -150,79 +50,26 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             return name;
         }
 
-        private static bool IsDesiredUiType(INamedTypeSymbol namedTypeSymbol,
-            GeneratorSyntaxContext generatorSyntaxContext,
+        private static void DoGeneration(
             SourceProductionContext productionContext,
-            IPlatformResolver platformResolver)
-        {
-            var compilation = generatorSyntaxContext.SemanticModel.Compilation;
-
-            var desiredBaseType = platformResolver.GetBaseUiElement();
-            var desiredNameWithoutGlobal = desiredBaseType.Replace(
-                "global::",
-                string.Empty);
-            var desiredBaseTypeSymbolMatch = compilation.GetTypeByMetadataName(desiredNameWithoutGlobal);
-
-            if (desiredBaseTypeSymbolMatch == null)
-            {
-                productionContext.ReportDiagnostic(ReportDiagnosticFactory.FailedToFindDesiredBaseTypeSymbol(desiredBaseType));
-                return false;
-            }
-
-            // blazor uses an interface, so we check once to drive different inheritance check.
-            var desiredBaseTypeIsInterface = false;
-            switch (desiredBaseTypeSymbolMatch.TypeKind)
-            {
-                case TypeKind.Interface:
-                    desiredBaseTypeIsInterface = true;
-                    break;
-                case TypeKind.Class:
-                    break;
-                default:
-                    productionContext.ReportDiagnostic(ReportDiagnosticFactory.DesiredBaseTypeSymbolNotInterfaceOrClass(desiredBaseType));
-                    return false;
-            }
-
-            return IsDesiredUiType(
-                namedTypeSymbol,
-                desiredBaseType,
-                desiredBaseTypeIsInterface);
-        }
-
-        private static bool IsDesiredUiType(
             INamedTypeSymbol namedTypeSymbol,
-            string baseUiElement,
-            bool desiredBaseTypeIsInterface)
+            ParseOptions parseOptions)
         {
-            if (namedTypeSymbol.IsStatic
-                || !NamedTypeSymbolHelpers.HasDesiredBaseType(
-                     baseUiElement,
-                     desiredBaseTypeIsInterface,
-                     namedTypeSymbol))
-            {
-                return false;
-            }
+            var cu = SyntaxFactory.CompilationUnit()
+                .AddMembers(namespaceDeclaration)
+                .NormalizeWhitespace();
 
-            return true;
-        }
+            var sourceText = SyntaxFactory.SyntaxTree(
+                    cu,
+                    parseOptions,
+                    encoding: Encoding.UTF8)
+                .GetText();
 
-        private static Func<IClassGenerator>[] GetClassGenerators()
-        {
-            return new Func<IClassGenerator>[]
-            {
-                () => new GenericControlBindingModelClassGenerator(),
-                () => new ControlBoundControlBindingModelClassGenerator(),
-            };
-        }
+            var hintName = $"{GetSafeFileName(namedTypeSymbol)}.g.cs";
 
-        private static string GetNamespace(string? rootNamespace, string platformName)
-        {
-            if (string.IsNullOrWhiteSpace(rootNamespace))
-            {
-                rootNamespace = "VetuviemGenerated";
-            }
-
-            return $"{rootNamespace}.{platformName}.ViewToViewModelBindings";
+            productionContext.AddSource(
+                hintName,
+                sourceText);
         }
     }
 }

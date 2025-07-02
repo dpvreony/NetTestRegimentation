@@ -12,6 +12,9 @@ using Whipstaff.CommandLine;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool
 {
+    /// <summary>
+    /// Process manager that handles the Source generator command line job.
+    /// </summary>
     public sealed class SourceGeneratorCommandLineJob : AbstractCommandLineHandler<SourceGeneratorCommandLineArgModel, SourceGeneratorCommandLineJobLogMessageActionsWrapper>
     {
         private readonly IFileSystem _fileSystem;
@@ -34,6 +37,9 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         /// <inheritdoc/>
         protected override Task<int> OnHandleCommand(SourceGeneratorCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
+            // get a list of project references using msbuild
+            // get the project references into rosyln as options
+            // iterate over the project references and get the namespaces, classes and methods.
             return Task.FromResult(1);
         }
     }

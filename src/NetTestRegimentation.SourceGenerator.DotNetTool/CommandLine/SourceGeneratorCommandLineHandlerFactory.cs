@@ -2,14 +2,9 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
 using System.CommandLine;
 using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Whipstaff.CommandLine;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine

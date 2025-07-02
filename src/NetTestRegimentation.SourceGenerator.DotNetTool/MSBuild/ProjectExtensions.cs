@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,8 +22,12 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.MSBuild
         /// <returns>Collection of project references.</returns>
         public static string[] GetProjectReferences(this Project project)
         {
+            ArgumentNullException.ThrowIfNull(project);
+
             var projectReferences = new HashSet<string>();
-            EnumerateProjectReferences(project, projectReferences);
+            EnumerateProjectReferences(
+                project,
+                projectReferences);
 
             return projectReferences.ToArray();
         }
@@ -32,9 +37,20 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.MSBuild
             HashSet<string> projectReferences)
         {
             var csprojPath = project.FullPath;
+            if (string.IsNullOrWhiteSpace(csprojPath))
+            {
+                throw new ArgumentException("Project must have a valid FullPath.", nameof(project));
+            }
+
             foreach (var projectItem in project.GetItems("ProjectReference"))
             {
-                var fullPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(csprojPath), projectItem.EvaluatedInclude));
+                var dir = Path.GetDirectoryName(csprojPath);
+                if (dir == null)
+                {
+                    throw new InvalidOperationException("Project directory cannot be null.");
+                }
+
+                var fullPath = Path.GetFullPath(Path.Combine(dir, projectItem.EvaluatedInclude));
                 if (projectReferences.Add(fullPath))
                 {
                     var referencedProject = new Project(fullPath);

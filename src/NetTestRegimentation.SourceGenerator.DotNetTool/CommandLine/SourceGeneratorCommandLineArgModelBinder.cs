@@ -4,8 +4,8 @@
 
 using System;
 using System.CommandLine;
-using System.CommandLine.Parsing;
 using System.IO;
+using Whipstaff.CommandLine;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
 {
@@ -19,7 +19,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceGeneratorCommandLineArgModelBinder"/> class.
         /// </summary>
-        /// <param name="testProjectPathOptionOption">Test Project Path option to parse and bind against.</param>
+        /// <param name="testProjectPathOption">Test Project Path option to parse and bind against.</param>
         public SourceGeneratorCommandLineArgModelBinder(Option<FileInfo> testProjectPathOption)
         {
             ArgumentNullException.ThrowIfNull(testProjectPathOption);
