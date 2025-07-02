@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Microsoft.Build.Evaluation;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.MSBuild
@@ -17,9 +19,28 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.MSBuild
         /// </summary>
         /// <param name="project">The project to process.</param>
         /// <returns>Collection of project references.</returns>
-        public static ICollection<ProjectItem> GetProjectReferences(this Project project)
+        public static string[] GetProjectReferences(this Project project)
         {
-            return project.GetItems("ProjectReference");
+            var projectReferences = new HashSet<string>();
+            EnumerateProjectReferences(project, projectReferences);
+
+            return projectReferences.ToArray();
+        }
+
+        private static void EnumerateProjectReferences(
+            Project project,
+            HashSet<string> projectReferences)
+        {
+            var csprojPath = project.FullPath;
+            foreach (var projectItem in project.GetItems("ProjectReference"))
+            {
+                var fullPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(csprojPath), projectItem.EvaluatedInclude));
+                if (projectReferences.Add(fullPath))
+                {
+                    var referencedProject = new Project(fullPath);
+                    EnumerateProjectReferences(referencedProject, projectReferences);
+                }
+            }
         }
     }
 }
