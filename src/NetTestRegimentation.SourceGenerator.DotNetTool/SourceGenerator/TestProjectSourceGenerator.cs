@@ -2,11 +2,13 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Whipstaff.Runtime.Extensions;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 {
@@ -25,17 +27,20 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                         .SelectMany(assembly => GetAllTypes(assembly.GlobalNamespace))
                         .Where(type => IsDesiredType(type)))
                 .Combine(context.ParseOptionsProvider)
+                .Combine(context.CompilationProvider)
                 .Select(
                     (tuple1, _) => (
-                        NamedTypeSymbol: tuple1.Left,
-                        ParseOptions: tuple1.Right));
+                        NamedTypeSymbol: tuple1.Left.Left,
+                        ParseOptions: tuple1.Left.Right,
+                        Compilation: tuple1.Right));
 
             context.RegisterSourceOutput(
                 classSymbols,
                 static (productionContext, tuple) => DoGeneration(
                     productionContext,
                     tuple.NamedTypeSymbol,
-                    tuple.ParseOptions));
+                    tuple.ParseOptions,
+                    tuple.Compilation));
         }
 
         private static bool IsDesiredAssembly(IAssemblySymbol assembly)
@@ -87,14 +92,20 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
         private static void DoGeneration(
             SourceProductionContext productionContext,
             INamedTypeSymbol namedTypeSymbol,
-            ParseOptions parseOptions)
+            ParseOptions parseOptions,
+            Compilation compilation)
         {
             if (!IsDesiredAssembly(namedTypeSymbol.ContainingAssembly))
             {
                 return;
             }
 
-            var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName("UnitTest"));
+            var rootNamespace = compilation.Assembly.Name;
+            var prefix = rootNamespace.Remove(".UnitTests", StringComparison.Ordinal);
+            var subNamespace = namedTypeSymbol.ContainingNamespace.ToString()!.Remove(prefix, StringComparison.Ordinal);
+            var testNamespace = $"{rootNamespace}{subNamespace}";
+
+            var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(testNamespace));
             var cu = SyntaxFactory.CompilationUnit()
                 .AddMembers(namespaceDeclaration)
                 .NormalizeWhitespace();
