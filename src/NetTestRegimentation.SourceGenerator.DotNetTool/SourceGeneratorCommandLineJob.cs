@@ -71,22 +71,27 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                     throw new InvalidOperationException("Failed to get compilation object");
                 }
 
+                var originalSyntaxTrees = compilation.SyntaxTrees.ToImmutableHashSet();
+
                 compilation = compilation.RunGenerators(
                     analyzerConfigOptionsProvider,
                     out var diagnostics,
                     analyzer);
 
-                var syntaxTrees = compilation.SyntaxTrees.ToImmutableArray();
-                if (syntaxTrees.IsEmpty)
+                var allSyntaxTrees = compilation.SyntaxTrees.ToImmutableHashSet();
+                var generatedSyntaxTrees = allSyntaxTrees.Except(originalSyntaxTrees).ToImmutableArray();
+
+                if (generatedSyntaxTrees.IsEmpty)
                 {
                     LogMessageActionsWrapper.NoGeneratedCode();
                 }
                 else
                 {
-                    LogMessageActionsWrapper.GeneratedCode(syntaxTrees.Length);
-                    foreach (var syntaxTree in syntaxTrees)
+                    LogMessageActionsWrapper.GeneratedCode(generatedSyntaxTrees.Length);
+                    foreach (var syntaxTree in generatedSyntaxTrees)
                     {
                         LogMessageActionsWrapper.GeneratedCodeFile(syntaxTree.FilePath);
+                        Console.WriteLine((await syntaxTree.GetTextAsync(cancellationToken)).ToString());
                     }
                 }
             }
