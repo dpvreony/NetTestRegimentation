@@ -3,7 +3,9 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Immutable;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -69,10 +71,24 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                     throw new InvalidOperationException("Failed to get compilation object");
                 }
 
-                compilation.RunGenerators(
+                compilation = compilation.RunGenerators(
                     analyzerConfigOptionsProvider,
                     out var diagnostics,
                     analyzer);
+
+                var syntaxTrees = compilation.SyntaxTrees.ToImmutableArray();
+                if (syntaxTrees.IsEmpty)
+                {
+                    LogMessageActionsWrapper.NoGeneratedCode();
+                }
+                else
+                {
+                    LogMessageActionsWrapper.GeneratedCode(syntaxTrees.Length);
+                    foreach (var syntaxTree in syntaxTrees)
+                    {
+                        LogMessageActionsWrapper.GeneratedCodeFile(syntaxTree.FilePath);
+                    }
+                }
             }
 
             return 0;

@@ -53,5 +53,31 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.Logging
         {
             _commandLineJobLogMessageActions.UnhandledException(Logger, exception);
         }
+
+        /// <summary>
+        /// Log message action for when the command line job has no generated code.
+        /// </summary>
+        public void NoGeneratedCode()
+        {
+            _commandLineJobLogMessageActions.NoGeneratedCode(Logger);
+        }
+
+        /// <summary>
+        /// Log message action for when the command line job has generated code.
+        /// </summary>
+        /// <param name="syntaxTreesLength">Number of files produced.</param>
+        public void GeneratedCode(int syntaxTreesLength)
+        {
+            _commandLineJobLogMessageActions.GeneratedCode(Logger, syntaxTreesLength);
+        }
+
+        /// <summary>
+        /// Log message action for when a generated code file is created.
+        /// </summary>
+        /// <param name="filePath">Path of the generated file.</param>
+        public void GeneratedCodeFile(string filePath)
+        {
+            _commandLineJobLogMessageActions.GeneratedCodeFile(Logger, filePath);
+        }
     }
 }

@@ -16,6 +16,9 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.Logging
         private readonly Action<ILogger, Exception?> _startingHandleCommand;
         private readonly Action<ILogger, Exception?> _failedToFindRootCommand;
         private readonly Action<ILogger, Exception?> _unhandledException;
+        private readonly Action<ILogger, Exception?> _noGeneratedCode;
+        private readonly Action<ILogger, int, Exception?> _generatedCode;
+        private readonly Action<ILogger, string, Exception?> _generatedCodeFile;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceGeneratorCommandLineJobLogMessageActions"/> class.
@@ -36,6 +39,21 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.Logging
                 LogLevel.Error,
                 SourceGeneratorJobEventIdFactory.UnhandledException(),
                 "Unhandled Exception.");
+
+            _noGeneratedCode = LoggerMessage.Define(
+                LogLevel.Warning,
+                SourceGeneratorJobEventIdFactory.NoGeneratedCode(),
+                "No generated code produced.");
+
+            _generatedCode = LoggerMessage.Define<int>(
+                LogLevel.Information,
+                SourceGeneratorJobEventIdFactory.GeneratedCode(),
+                "Generated code with {SyntaxTreesLength} syntax trees.");
+
+            _generatedCodeFile = LoggerMessage.Define<string>(
+                LogLevel.Information,
+                SourceGeneratorJobEventIdFactory.GeneratedCodeFile(),
+                "Generated code file at {FilePath}.");
         }
 
         internal void StartingHandleCommand(ILogger<SourceGeneratorCommandLineJob> logger)
@@ -51,6 +69,21 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.Logging
         internal void UnhandledException(ILogger<SourceGeneratorCommandLineJob> logger, Exception exception)
         {
             _unhandledException(logger, exception);
+        }
+
+        internal void NoGeneratedCode(ILogger<SourceGeneratorCommandLineJob> logger)
+        {
+            _noGeneratedCode(logger, null);
+        }
+
+        internal void GeneratedCode(ILogger<SourceGeneratorCommandLineJob> logger, int syntaxTreesLength)
+        {
+            _generatedCode(logger, syntaxTreesLength, null);
+        }
+
+        internal void GeneratedCodeFile(ILogger<SourceGeneratorCommandLineJob> logger, string filePath)
+        {
+            _generatedCodeFile(logger, filePath, null);
         }
     }
 }

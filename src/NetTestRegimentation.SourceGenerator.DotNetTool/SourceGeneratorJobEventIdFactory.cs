@@ -14,5 +14,11 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         internal static EventId FailedToFindRootCommand() => new(2, nameof(StartingHandleCommand));
 
         internal static EventId UnhandledException() => new(3, nameof(UnhandledException));
+
+        internal static EventId NoGeneratedCode() => new(4, nameof(NoGeneratedCode));
+
+        internal static EventId GeneratedCode() => new(5, nameof(GeneratedCode));
+
+        internal static EventId GeneratedCodeFile() => new(6, nameof(GeneratedCodeFile));
     }
 }
