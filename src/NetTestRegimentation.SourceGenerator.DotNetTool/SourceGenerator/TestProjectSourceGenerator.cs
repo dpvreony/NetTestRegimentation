@@ -2,6 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -18,7 +20,12 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
         {
             var allowedAssemblyNames = new[] { "MyReferencedAssembly", "OtherLib" };
 
-            var classSymbols = context.CompilationProvider.SelectMany((compilation, token) => compilation.GlobalNamespace.GetTypeMembers())
+            var classSymbols = context.CompilationProvider.SelectMany((compilation, token) =>
+                    compilation.References
+                        .Select(r => compilation.GetAssemblyOrModuleSymbol(r))
+                        .OfType<IAssemblySymbol>()
+                        .SelectMany(assembly => GetAllTypes(assembly.GlobalNamespace))
+                        .Where(type => IsDesiredType(type)))
                 .Combine(context.ParseOptionsProvider)
                 .Select(
                     (tuple1, _) => (
@@ -31,6 +38,27 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     productionContext,
                     tuple.NamedTypeSymbol,
                     tuple.ParseOptions));
+        }
+
+        private static bool IsDesiredType(INamedTypeSymbol type)
+        {
+            return type.TypeKind == TypeKind.Class && !type.IsAbstract;
+        }
+
+        private static IEnumerable<INamedTypeSymbol> GetAllTypes(INamespaceSymbol @namespace)
+        {
+            foreach (var type in @namespace.GetTypeMembers())
+            {
+                yield return type;
+            }
+
+            foreach (var ns in @namespace.GetNamespaceMembers())
+            {
+                foreach (var type in GetAllTypes(ns))
+                {
+                    yield return type;
+                }
+            }
         }
 
         private static string GetSafeFileName(INamedTypeSymbol symbol)
@@ -63,7 +91,8 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     encoding: Encoding.UTF8)
                 .GetText();
 
-            var hintName = $"{GetSafeFileName(namedTypeSymbol)}.g.cs";
+            var safeFileName = GetSafeFileName(namedTypeSymbol);
+            var hintName = $"{safeFileName}.g.cs";
 
             productionContext.AddSource(
                 hintName,

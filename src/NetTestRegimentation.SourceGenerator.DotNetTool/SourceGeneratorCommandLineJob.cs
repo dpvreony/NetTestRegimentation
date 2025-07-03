@@ -78,6 +78,15 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                     out var diagnostics,
                     analyzer);
 
+                if (diagnostics.Any())
+                {
+                    foreach (var diagnostic in diagnostics)
+                    {
+                        await Console.Error.WriteLineAsync(diagnostic.ToString())
+                            .ConfigureAwait(false);
+                    }
+                }
+
                 var allSyntaxTrees = compilation.SyntaxTrees.ToImmutableHashSet();
                 var generatedSyntaxTrees = allSyntaxTrees.Except(originalSyntaxTrees).ToImmutableArray();
 
