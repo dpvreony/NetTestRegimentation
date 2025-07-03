@@ -24,12 +24,9 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
             {
                 Description = "Path to the project to generate code in.",
                 Required = true
-            }.SpecificFileExtensionsOnly(
+            }.SpecificFileExtensionOnly(
                 fileSystem,
-                [
-                    ".csproj",
-                    ".sln"
-                ])
+                ".csproj")
                 .ExistingOnly(fileSystem);
 
             var rootCommand = new RootCommand("Creates an Entity Framework Diagram from a DbContext")

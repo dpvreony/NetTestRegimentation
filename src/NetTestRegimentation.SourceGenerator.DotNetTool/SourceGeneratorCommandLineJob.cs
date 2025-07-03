@@ -3,11 +3,21 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO.Abstractions;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.MSBuild;
 using NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine;
 using NetTestRegimentation.SourceGenerator.DotNetTool.Logging;
+using NetTestRegimentation.SourceGenerator.DotNetTool.MSBuild;
+using NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator;
 using Whipstaff.CommandLine;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool
@@ -35,12 +45,36 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(SourceGeneratorCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
+        protected override async Task<int> OnHandleCommand(SourceGeneratorCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
+            ArgumentNullException.ThrowIfNull(commandLineArgModel);
+
             // get a list of project references using msbuild
             // get the project references into rosyln as options
             // iterate over the project references and get the namespaces, classes and methods.
-            return Task.FromResult(1);
+            var analyzer = new TestProjectSourceGenerator()
+                .AsSourceGenerator();
+
+            using (var workspace = MSBuildWorkspace.Create())
+            {
+                var project = await workspace.OpenProjectAsync(
+                    commandLineArgModel.TestProjectPath.FullName,
+                    cancellationToken: cancellationToken);
+
+                var compilation = await project.GetCompilationAsync(cancellationToken);
+                if (compilation == null)
+                {
+                    // TODO: warn about failure to get compilation object.
+                    throw new InvalidOperationException("Failed to get compilation object");
+                }
+
+                compilation.RunGenerators(
+                    null,
+                    out var diagnostics,
+                    analyzer);
+            }
+
+            return 1;
         }
     }
 }
