@@ -20,7 +20,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
             var testProjectPathOption = new Option<FileInfo>(
                 "--project-path",
-                "-a")
+                "-p")
             {
                 Description = "Path to the project to generate code in.",
                 Required = true
@@ -29,14 +29,17 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
                 ".csproj")
                 .ExistingOnly(fileSystem);
 
+            var whatIfOption = new Option<bool>("--whatif");
+
             var rootCommand = new RootCommand("Creates an Entity Framework Diagram from a DbContext")
             {
-                testProjectPathOption
+                testProjectPathOption,
+                whatIfOption
             };
 
             return new RootCommandAndBinderModel<SourceGeneratorCommandLineArgModelBinder>(
                 rootCommand,
-                new SourceGeneratorCommandLineArgModelBinder(testProjectPathOption));
+                new SourceGeneratorCommandLineArgModelBinder(testProjectPathOption, whatIfOption));
         }
     }
 }

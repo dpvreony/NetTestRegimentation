@@ -10,5 +10,6 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
     /// Model for command line arguments for the source generator tool.
     /// </summary>
     /// <param name="TestProjectPath">The path of the test project to generate code for.</param>
-    public sealed record SourceGeneratorCommandLineArgModel(FileInfo TestProjectPath);
+    /// <param name="WhatIf">Run a non-destructive generation, that produces a summary of what would happen.</param>
+    public sealed record SourceGeneratorCommandLineArgModel(FileInfo TestProjectPath, bool WhatIf);
 }

@@ -5,6 +5,7 @@
 using System;
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
@@ -15,16 +16,22 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
     public sealed class SourceGeneratorCommandLineArgModelBinder : IBinderBase<SourceGeneratorCommandLineArgModel>
     {
         private readonly Option<FileInfo> _testProjectPathOption;
+        private readonly Option<bool> _whatIfOption;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceGeneratorCommandLineArgModelBinder"/> class.
         /// </summary>
         /// <param name="testProjectPathOption">Test Project Path option to parse and bind against.</param>
-        public SourceGeneratorCommandLineArgModelBinder(Option<FileInfo> testProjectPathOption)
+        /// <param name="whatIfOption">Command line option model for the "What If" option to parse and bind against.</param>
+        public SourceGeneratorCommandLineArgModelBinder(
+            Option<FileInfo> testProjectPathOption,
+            Option<bool> whatIfOption)
         {
             ArgumentNullException.ThrowIfNull(testProjectPathOption);
+            ArgumentNullException.ThrowIfNull(whatIfOption);
 
             _testProjectPathOption = testProjectPathOption;
+            _whatIfOption = whatIfOption;
         }
 
         /// <inheritdoc/>
@@ -33,9 +40,11 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
             ArgumentNullException.ThrowIfNull(parseResult);
 
             var testProjectPath = parseResult.GetValue(_testProjectPathOption);
+            var whatIf = parseResult.GetValue(_whatIfOption);
 
             return new SourceGeneratorCommandLineArgModel(
-                testProjectPath!);
+                testProjectPath!,
+                whatIf);
         }
     }
 }

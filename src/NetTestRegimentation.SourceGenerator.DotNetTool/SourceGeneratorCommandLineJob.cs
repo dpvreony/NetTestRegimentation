@@ -3,15 +3,10 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.MSBuild;
 using NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine;
@@ -50,7 +45,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
 
             // get a list of project references using msbuild
-            // get the project references into rosyln as options
+            // get the project references into roslyn as options
             // iterate over the project references and get the namespaces, classes and methods.
             var analyzer = new TestProjectSourceGenerator()
                 .AsSourceGenerator();
@@ -61,6 +56,11 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                     commandLineArgModel.TestProjectPath.FullName,
                     cancellationToken: cancellationToken);
 
+                // we need to inject the project references into the compilation options
+                // as the source generator needs to know about them,
+                // but it can't get them from the project directly.
+                var analyzerConfigOptionsProvider = GetAnalyzerConfigOptionsProvider(project);
+
                 var compilation = await project.GetCompilationAsync(cancellationToken);
                 if (compilation == null)
                 {
@@ -69,12 +69,29 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                 }
 
                 compilation.RunGenerators(
-                    null,
+                    analyzerConfigOptionsProvider,
                     out var diagnostics,
                     analyzer);
             }
 
             return 1;
+        }
+
+        private static InMemoryAnalyzerConfigOptionsProvider GetAnalyzerConfigOptionsProvider(Project project)
+        {
+            var globalOptions = new InMemoryAnalyzerConfigOptions();
+
+            var projectReferences = project.AllProjectReferences;
+
+            var references = projectReferences.Count > 0
+                ? string.Join(",", projectReferences)
+                : string.Empty;
+
+            globalOptions.Add(
+                "build_property.nettestregimentation_projectreferences",
+                references);
+
+            return new InMemoryAnalyzerConfigOptionsProvider(globalOptions);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net8.0</TargetFrameworks>
+    <TargetFrameworks>net48;net9.0</TargetFrameworks>
     <OutputType>exe</OutputType>
+    <NoWarn>CA1515</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
