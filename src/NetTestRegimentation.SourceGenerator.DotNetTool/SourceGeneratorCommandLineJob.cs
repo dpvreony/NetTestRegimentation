@@ -43,6 +43,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         protected override async Task<int> OnHandleCommand(SourceGeneratorCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
+            LogMessageActionsWrapper.StartingHandleCommand();
 
             // get a list of project references using msbuild
             // get the project references into roslyn as options
@@ -74,7 +75,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                     analyzer);
             }
 
-            return 1;
+            return 0;
         }
 
         private static InMemoryAnalyzerConfigOptionsProvider GetAnalyzerConfigOptionsProvider(Project project)

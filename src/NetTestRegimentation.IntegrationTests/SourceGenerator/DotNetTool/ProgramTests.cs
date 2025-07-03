@@ -2,8 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.CommandLine;
+using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NetTestRegimentation.XUnit.Logging;
+using Whipstaff.CommandLine.Hosting;
 using Xunit;
 
 namespace NetTestRegimentation.IntegrationTests.SourceGenerator.DotNetTool
@@ -14,15 +20,15 @@ namespace NetTestRegimentation.IntegrationTests.SourceGenerator.DotNetTool
     public static class ProgramTests
     {
         /// <summary>
-        /// Integration test for <see cref="NetTestRegimentation.SourceGenerator.DotNetTool.Program.Main(string[])"/> method.
+        /// Integration test for <see cref="NetTestRegimentation.SourceGenerator.DotNetTool.Program.RunJob(string[], System.Func{System.CommandLine.RootCommand, System.CommandLine.CommandLineConfiguration}?)"/> method.
         /// </summary>
-        public sealed class MainMethod : TestWithLoggingBase
+        public sealed class RunJobMethod : TestWithLoggingBase
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="MainMethod"/> class.
+            /// Initializes a new instance of the <see cref="RunJobMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit Test Output Helper.</param>
-            public MainMethod(ITestOutputHelper output)
+            public RunJobMethod(ITestOutputHelper output)
                 : base(output)
             {
             }
@@ -34,13 +40,29 @@ namespace NetTestRegimentation.IntegrationTests.SourceGenerator.DotNetTool
             [Fact]
             public async Task GeneratesCodeAndReturnsZeroAsync()
             {
-                var args = new[]
+                await using (var outputWriter = new StringWriter())
+                await using (var errorWriter = new StringWriter())
                 {
-                    "--test-project-path",
-                    "../../../NetTestRegimentation.UnitTests.csproj",
-                    "--whatif"
-                };
-                var result = await NetTestRegimentation.SourceGenerator.DotNetTool.Program.Main(args);
+                    Console.SetOut(outputWriter);
+                    Console.SetError(errorWriter);
+
+                    var args = new[]
+                    {
+                        "--project-path",
+                        "../../../../NetTestRegimentation.UnitTests/NetTestRegimentation.UnitTests.csproj",
+                        "--whatif"
+                    };
+                    var result = await NetTestRegimentation.SourceGenerator.DotNetTool.Program.RunJob(
+                        args,
+                        rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter));
+
+#pragma warning disable CA1848
+                    Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
+                    Logger.LogInformation("Console error: {ConsoleError}", errorWriter.ToString());
+#pragma warning restore CA1848
+
+                    Assert.Equal(0, result);
+                }
             }
         }
     }

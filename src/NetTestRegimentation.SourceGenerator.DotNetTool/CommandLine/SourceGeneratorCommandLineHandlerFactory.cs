@@ -31,7 +31,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.CommandLine
 
             var whatIfOption = new Option<bool>("--whatif");
 
-            var rootCommand = new RootCommand("Creates an Entity Framework Diagram from a DbContext")
+            var rootCommand = new RootCommand("Generates Test Code for C# projects.")
             {
                 testProjectPathOption,
                 whatIfOption
