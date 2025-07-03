@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net9.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <OutputType>exe</OutputType>
     <NoWarn>CA1515</NoWarn>
   </PropertyGroup>
@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetTestRegimentation.SourceGenerator.DotNetTool\NetTestRegimentation.SourceGenerator.DotNetTool.csproj" />
+    <ProjectReference Include="..\NetTestRegimentation.XUnit\NetTestRegimentation.XUnit.csproj" />
     <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
   </ItemGroup>
 

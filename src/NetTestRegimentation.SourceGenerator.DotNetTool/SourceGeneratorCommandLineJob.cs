@@ -53,6 +53,8 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
             var analyzer = new TestProjectSourceGenerator()
                 .AsSourceGenerator();
 
+            var hasError = false;
+
             using (var workspace = MSBuildWorkspace.Create())
             {
                 var project = await workspace.OpenProjectAsync(
@@ -82,6 +84,8 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                 {
                     foreach (var diagnostic in diagnostics)
                     {
+                        hasError |= diagnostic.Severity == DiagnosticSeverity.Error;
+
                         await Console.Error.WriteLineAsync(diagnostic.ToString())
                             .ConfigureAwait(false);
                     }
@@ -105,7 +109,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                 }
             }
 
-            return 0;
+            return hasError ? 1 : 0;
         }
 
         private static InMemoryAnalyzerConfigOptionsProvider GetAnalyzerConfigOptionsProvider(Project project)

@@ -18,8 +18,6 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var allowedAssemblyNames = new[] { "MyReferencedAssembly", "OtherLib" };
-
             var classSymbols = context.CompilationProvider.SelectMany((compilation, token) =>
                     compilation.References
                         .Select(r => compilation.GetAssemblyOrModuleSymbol(r))
@@ -40,9 +38,20 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     tuple.ParseOptions));
         }
 
+        private static bool IsDesiredAssembly(IAssemblySymbol assembly)
+        {
+            var allowedAssemblyNames = new[] { "NetTestRegimentation", "nettestregimentation-sourcegen" };
+
+            return allowedAssemblyNames.Contains(assembly.Name);
+        }
+
         private static bool IsDesiredType(INamedTypeSymbol type)
         {
-            return type.TypeKind == TypeKind.Class && !type.IsAbstract;
+            return type.TypeKind == TypeKind.Class && type is
+            {
+                IsAbstract: false,
+                DeclaredAccessibility: Accessibility.Public
+            };
         }
 
         private static IEnumerable<INamedTypeSymbol> GetAllTypes(INamespaceSymbol @namespace)
@@ -80,6 +89,11 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             INamedTypeSymbol namedTypeSymbol,
             ParseOptions parseOptions)
         {
+            if (!IsDesiredAssembly(namedTypeSymbol.ContainingAssembly))
+            {
+                return;
+            }
+
             var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName("UnitTest"));
             var cu = SyntaxFactory.CompilationUnit()
                 .AddMembers(namespaceDeclaration)
