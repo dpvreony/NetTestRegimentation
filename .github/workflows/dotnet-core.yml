@@ -21,17 +21,17 @@ jobs:
       unittestprojectpath: src\NetTestRegimentation.UnitTests\NetTestRegimentation.UnitTests.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
         
     - name: Setup .NET 5
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 5.0.x
 
     - name: Setup .NET 6
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 6.0.x
 
@@ -141,12 +141,12 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
 
     - name: Download NuGet Packages
-      uses: actions/download-artifact@v4.3.0
+      uses: actions/download-artifact@v5.0.0
       with:
         name: nuget
 
