@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Whipstaff.Runtime.Extensions;
 
 namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
@@ -24,12 +25,11 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     compilation.References
                         .Select(r => compilation.GetAssemblyOrModuleSymbol(r))
                         .OfType<IAssemblySymbol>()
-                        .SelectMany(assembly => GetAllTypes(assembly.GlobalNamespace))
-                        .Where(type => IsDesiredType(type)))
+                        .SelectMany(static assembly => GetAllTypes(assembly.GlobalNamespace))
+                        .Where(static type => IsDesiredType(type)))
                 .Combine(context.ParseOptionsProvider)
                 .Combine(context.CompilationProvider)
-                .Select(
-                    (tuple1, _) => (
+                .Select(static (tuple1, _) => (
                         NamedTypeSymbol: tuple1.Left.Left,
                         ParseOptions: tuple1.Left.Right,
                         Compilation: tuple1.Right));
@@ -106,6 +106,26 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             var testNamespace = $"{rootNamespace}{subNamespace}";
 
             var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(testNamespace));
+
+            // class level
+            var classNameIdentifier = $"{namedTypeSymbol.Name}Tests";
+            var modifiers = SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.StaticKeyword));
+            var classDeclaration = SyntaxFactory.ClassDeclaration(classNameIdentifier).WithModifiers(modifiers);
+
+            classDeclaration = AddConstructorTests(
+                classDeclaration,
+                namedTypeSymbol);
+
+            classDeclaration = AddMethodTests(
+                classDeclaration,
+                namedTypeSymbol);
+
+            classDeclaration = AddPropertyTests(
+                classDeclaration,
+                namedTypeSymbol);
+
+            namespaceDeclaration = namespaceDeclaration.AddMembers(classDeclaration);
+
             var cu = SyntaxFactory.CompilationUnit()
                 .AddMembers(namespaceDeclaration)
                 .NormalizeWhitespace();
@@ -122,6 +142,86 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             productionContext.AddSource(
                 hintName,
                 sourceText);
+        }
+
+        private static ClassDeclarationSyntax AddPropertyTests(
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol namedTypeSymbol)
+        {
+            // TODO: remove properties and events
+            var methods = namedTypeSymbol.GetMembers()
+                .Where(static c => c is
+                                   {
+                                       Kind: SymbolKind.Property,
+                                       DeclaredAccessibility: Accessibility.Public
+                                   }
+
+                                   && !c.Name.Equals(".ctor", StringComparison.Ordinal));
+
+            foreach (var method in methods)
+            {
+                // TODO: extend name with type arguments and method arguments.
+                // TODO: work out the base implementation from NetTestRegimentation
+                var constructorIdentifier = $"{method.Name}Property";
+                var modifiers = SyntaxFactory.TokenList(
+                    SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                    SyntaxFactory.Token(SyntaxKind.SealedKeyword));
+                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
+            }
+
+            return classDeclaration;
+        }
+
+        private static ClassDeclarationSyntax AddMethodTests(
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol namedTypeSymbol)
+        {
+            // TODO: remove properties and events
+            var methods = namedTypeSymbol.GetMembers()
+                .Where(static c => c is
+                {
+                    Kind: SymbolKind.Method,
+                    DeclaredAccessibility: Accessibility.Public
+                }
+
+                && !c.Name.Equals(".ctor", StringComparison.Ordinal));
+
+            foreach (var method in methods)
+            {
+                // TODO: extend name with type arguments and method arguments.
+                // TODO: work out the base implementation from NetTestRegimentation
+                var constructorIdentifier = $"{method.Name}Method";
+                var modifiers = SyntaxFactory.TokenList(
+                    SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                    SyntaxFactory.Token(SyntaxKind.SealedKeyword));
+                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
+            }
+
+            return classDeclaration;
+        }
+
+        private static ClassDeclarationSyntax AddConstructorTests(
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol namedTypeSymbol)
+        {
+            var constructors = namedTypeSymbol.InstanceConstructors
+                .Where(static c => c is
+                {
+                    DeclaredAccessibility: Accessibility.Public,
+                    IsStatic: false
+                });
+
+            foreach (var constructor in constructors)
+            {
+                var constructorIdentifier = $"ConstructorMethod";
+                var modifiers = SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.SealedKeyword));
+                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
+            }
+
+            return classDeclaration;
         }
     }
 }
