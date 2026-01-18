@@ -21,7 +21,7 @@ jobs:
       unittestprojectpath: src\NetTestRegimentation.UnitTests\NetTestRegimentation.UnitTests.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
         
@@ -90,43 +90,43 @@ jobs:
 # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: binlogs
         path: artifacts/binlog
         
     - name: store docfx
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: omd
         path: artifacts/omd
         
     - name: store outdated
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: snitch
         path: artifacts/snitch
 
     - name: store resharper dupfinder
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: dupfinder
         path: artifacts/dupfinder
@@ -141,12 +141,12 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Download NuGet Packages
-      uses: actions/download-artifact@v5.0.0
+      uses: actions/download-artifact@v7.0.0
       with:
         name: nuget
 
