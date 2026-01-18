@@ -5,11 +5,9 @@
 using System;
 using System.CommandLine;
 using System.IO;
-using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation.XUnit.Logging;
-using Whipstaff.CommandLine.Hosting;
 using Xunit;
 
 namespace NetTestRegimentation.IntegrationTests.SourceGenerator.DotNetTool
@@ -20,7 +18,7 @@ namespace NetTestRegimentation.IntegrationTests.SourceGenerator.DotNetTool
     public static class ProgramTests
     {
         /// <summary>
-        /// Integration test for <see cref="NetTestRegimentation.SourceGenerator.DotNetTool.Program.RunJob(string[], System.Func{System.CommandLine.RootCommand, System.CommandLine.CommandLineConfiguration}?)"/> method.
+        /// Integration test for <see cref="NetTestRegimentation.SourceGenerator.DotNetTool.Program.RunJob(string[], System.Func{ParserConfiguration}?, System.Func{InvocationConfiguration})"/> method.
         /// </summary>
         public sealed class RunJobMethod : TestWithLoggingBase
         {
@@ -54,11 +52,16 @@ namespace NetTestRegimentation.IntegrationTests.SourceGenerator.DotNetTool
                     };
                     var result = await NetTestRegimentation.SourceGenerator.DotNetTool.Program.RunJob(
                         args,
-                        rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter));
+                        null,
+                        () => XUnitTestHelpers.CreateTestConsoleIntegration(
+                            outputWriter,
+                            errorWriter));
 
 #pragma warning disable CA1848
+#pragma warning disable CA1873 // Avoid potentially expensive logging
                     Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
                     Logger.LogInformation("Console error: {ConsoleError}", errorWriter.ToString());
+#pragma warning restore CA1873 // Avoid potentially expensive logging
 #pragma warning restore CA1848
 
                     Assert.Equal(0, result);
