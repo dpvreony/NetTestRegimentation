@@ -26,21 +26,23 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         {
             return RunJob(
                 args,
+                null,
                 null);
         }
 
         /// <summary>
-        /// Job runner for the source generator command line tool.
-        /// Exposed to allow testing of the CLI with console redirection etc.
+        /// Run wrapper, that allows for passing in custom parser and invocation configurations for testing.
         /// </summary>
         /// <param name="args">Command line arguments.</param>
-        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
-        /// <returns>0 for success, non 0 for failure.</returns>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static Task<int> RunJob(
             string[] args,
-            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc)
+            Func<ParserConfiguration>? parserConfigurationFunc,
+            Func<InvocationConfiguration>? invocationConfigurationFunc)
         {
-            return HostRunner.RunSimpleCliJob<
+            return HostRunner.RunSimpleCliJobAsync<
                 SourceGeneratorCommandLineJob,
                 SourceGeneratorCommandLineArgModel,
                 SourceGeneratorCommandLineArgModelBinder,
@@ -52,7 +54,8 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
                         logger),
                     fileSystem),
                 new FileSystem(),
-                commandLineConfigurationFunc);
+                parserConfigurationFunc,
+                invocationConfigurationFunc);
         }
     }
 }

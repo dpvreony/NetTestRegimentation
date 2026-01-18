@@ -42,7 +42,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override async Task<int> OnHandleCommand(SourceGeneratorCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
+        protected override async Task<int> OnHandleCommandAsync(SourceGeneratorCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
             LogMessageActionsWrapper.StartingHandleCommand();

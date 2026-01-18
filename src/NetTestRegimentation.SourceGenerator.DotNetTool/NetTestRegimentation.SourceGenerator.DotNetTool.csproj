@@ -9,6 +9,7 @@
     <AssemblyName>nettestregimentation-sourcegen</AssemblyName>
     <PackageDescription>dot net tool for producing test code for a project.</PackageDescription>
     <NoWarn>CA1515</NoWarn>
+    <DisableMSBuildAssemblyCopyCheck>true</DisableMSBuildAssemblyCopyCheck>
   </PropertyGroup>
 
   <ItemGroup>
