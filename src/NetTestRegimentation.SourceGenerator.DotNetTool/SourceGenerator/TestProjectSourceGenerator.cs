@@ -219,6 +219,9 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                 var modifiers = SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.SealedKeyword));
                 var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
+
+                // TODO: add returns instance test
+                // TODO: add null reference exception tests
             }
 
             return classDeclaration;
