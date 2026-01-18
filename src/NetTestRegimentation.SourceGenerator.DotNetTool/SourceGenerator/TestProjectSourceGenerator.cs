@@ -215,9 +215,38 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
             foreach (var constructor in constructors)
             {
-                var constructorIdentifier = $"ConstructorMethod";
-                var modifiers = SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.SealedKeyword));
-                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                var parameters = constructor.Parameters;
+                var paramNames = parameters.Select(p => p.Type.Name)
+                    .ToArray();
+
+                string? paramNamesSuffix = null;
+                if (paramNames.Length > 0)
+                {
+                    paramNamesSuffix = "_" + string.Join("_", paramNames);
+                }
+
+                var nullableParameters = parameters.Where(p => p.Type.IsReferenceType)
+                    .ToArray();
+
+                var constructorIdentifier = $"ConstructorMethod{paramNamesSuffix}";
+                var modifiers = SyntaxFactory.TokenList(
+                    SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                    SyntaxFactory.Token(SyntaxKind.SealedKeyword),
+                    SyntaxFactory.Token(SyntaxKind.PartialKeyword));
+
+                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
+                    .WithModifiers(modifiers);
+
+                if (nullableParameters.Length > 0)
+                {
+                    var nullReferenceTestInterface = "ITestNullReferenceException";
+                    var baseList = SyntaxFactory.BaseList(
+                        SyntaxFactory.SingletonSeparatedList<BaseTypeSyntax>(
+                            SyntaxFactory.SimpleBaseType(
+                                SyntaxFactory.IdentifierName(nullReferenceTestInterface))));
+                    ctorDeclaration = ctorDeclaration.WithBaseList(baseList);
+                }
+
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
 
                 // TODO: add returns instance test
