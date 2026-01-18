@@ -46,7 +46,15 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
             LogMessageActionsWrapper.StartingHandleCommand();
+            Whipstaff.MsBuild.MsBuildLocatorWrapper.RegisterLatestVersionOfVisualStudio();
 
+            return await RunSourceGeneratorAsync(commandLineArgModel, cancellationToken);
+        }
+
+        private async Task<int> RunSourceGeneratorAsync(
+            SourceGeneratorCommandLineArgModel commandLineArgModel,
+            CancellationToken cancellationToken)
+        {
             // get a list of project references using msbuild
             // get the project references into roslyn as options
             // iterate over the project references and get the namespaces, classes and methods.

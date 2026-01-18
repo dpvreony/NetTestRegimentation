@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
     <PackageReference Include="Whipstaff.CommandLine" Version="9.0.7" />
+    <PackageReference Include="Whipstaff.MsBuild" Version="9.0.7" />
     <PackageReference Include="Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers" Version="9.0.7" />
   </ItemGroup>
 
