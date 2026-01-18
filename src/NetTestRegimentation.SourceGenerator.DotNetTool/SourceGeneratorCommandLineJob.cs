@@ -51,6 +51,23 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
             return await RunSourceGeneratorAsync(commandLineArgModel, cancellationToken);
         }
 
+        private static InMemoryAnalyzerConfigOptionsProvider GetAnalyzerConfigOptionsProvider(Project project)
+        {
+            var globalOptions = new InMemoryAnalyzerConfigOptions();
+
+            var projectReferences = project.AllProjectReferences;
+
+            var references = projectReferences.Count > 0
+                ? string.Join(",", projectReferences)
+                : string.Empty;
+
+            globalOptions.Add(
+                "build_property.nettestregimentation_projectreferences",
+                references);
+
+            return new InMemoryAnalyzerConfigOptionsProvider(globalOptions);
+        }
+
         private async Task<int> RunSourceGeneratorAsync(
             SourceGeneratorCommandLineArgModel commandLineArgModel,
             CancellationToken cancellationToken)
@@ -118,23 +135,6 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool
             }
 
             return hasError ? 1 : 0;
-        }
-
-        private static InMemoryAnalyzerConfigOptionsProvider GetAnalyzerConfigOptionsProvider(Project project)
-        {
-            var globalOptions = new InMemoryAnalyzerConfigOptions();
-
-            var projectReferences = project.AllProjectReferences;
-
-            var references = projectReferences.Count > 0
-                ? string.Join(",", projectReferences)
-                : string.Empty;
-
-            globalOptions.Add(
-                "build_property.nettestregimentation_projectreferences",
-                references);
-
-            return new InMemoryAnalyzerConfigOptionsProvider(globalOptions);
         }
     }
 }
