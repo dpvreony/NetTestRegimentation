@@ -109,8 +109,21 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
             // class level
             var classNameIdentifier = $"{namedTypeSymbol.Name}Tests";
-            var modifiers = SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.StaticKeyword));
-            var classDeclaration = SyntaxFactory.ClassDeclaration(classNameIdentifier).WithModifiers(modifiers);
+            var modifiers = SyntaxFactory.TokenList(
+                SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                SyntaxFactory.Token(SyntaxKind.StaticKeyword),
+                SyntaxFactory.Token(SyntaxKind.PartialKeyword));
+
+            var comments = new[]
+            {
+                SyntaxFactory.Comment("///<summary>"),
+                SyntaxFactory.Comment($"/// Unit Tests for the class <see cref=\"{namedTypeSymbol.ToDisplayString()}\" />."),
+                SyntaxFactory.Comment("///<summary>")
+            };
+
+            var classDeclaration = SyntaxFactory.ClassDeclaration(classNameIdentifier)
+                .WithModifiers(modifiers)
+                .WithLeadingTrivia(comments);
 
             classDeclaration = AddConstructorTests(
                 classDeclaration,
@@ -165,7 +178,8 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                 var constructorIdentifier = $"{method.Name}Property";
                 var modifiers = SyntaxFactory.TokenList(
                     SyntaxFactory.Token(SyntaxKind.PublicKeyword),
-                    SyntaxFactory.Token(SyntaxKind.SealedKeyword));
+                    SyntaxFactory.Token(SyntaxKind.SealedKeyword),
+                    SyntaxFactory.Token(SyntaxKind.PartialKeyword));
                 var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
             }
@@ -192,10 +206,21 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                 // TODO: extend name with type arguments and method arguments.
                 // TODO: work out the base implementation from NetTestRegimentation
                 var constructorIdentifier = $"{method.Name}Method";
+
+                var comments = new[]
+                {
+                    SyntaxFactory.Comment("///<summary>"),
+                    SyntaxFactory.Comment($"/// Unit Tests for the method <see cref=\"{namedTypeSymbol.ToDisplayString()}.{constructorIdentifier}\" />."),
+                    SyntaxFactory.Comment("///<summary>")
+                };
+
                 var modifiers = SyntaxFactory.TokenList(
                     SyntaxFactory.Token(SyntaxKind.PublicKeyword),
-                    SyntaxFactory.Token(SyntaxKind.SealedKeyword));
-                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                    SyntaxFactory.Token(SyntaxKind.SealedKeyword),
+                    SyntaxFactory.Token(SyntaxKind.PartialKeyword));
+                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
+                    .WithModifiers(modifiers)
+                    .WithLeadingTrivia(comments);
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
             }
 
@@ -234,8 +259,16 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     SyntaxFactory.Token(SyntaxKind.SealedKeyword),
                     SyntaxFactory.Token(SyntaxKind.PartialKeyword));
 
+                var comments = new[]
+                {
+                    SyntaxFactory.Comment("///<summary>"),
+                    SyntaxFactory.Comment($"/// Unit Tests for the constructor <see cref=\"{namedTypeSymbol.ToDisplayString()}.{constructorIdentifier}\" />."),
+                    SyntaxFactory.Comment("///<summary>")
+                };
+
                 var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
-                    .WithModifiers(modifiers);
+                    .WithModifiers(modifiers)
+                    .WithLeadingTrivia(comments);
 
                 if (nullableParameters.Length > 0)
                 {
