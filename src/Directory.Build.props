@@ -24,8 +24,8 @@
     <!-- disable sourcelink on mono, to workaround https://github.com/dotnet/sourcelink/issues/155 -->
     <EnableSourceLink Condition=" '$(OS)' != 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core' ">false</EnableSourceLink>
     <EnableSourceControlManagerQueries>$(EnableSourceLink)</EnableSourceControlManagerQueries>    
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<WarningsAsErrors>nullable</WarningsAsErrors>
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
@@ -38,8 +38,11 @@
 
   <ItemGroup Condition="$(IsTestProject)">
     <Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />
-    <NoWarn>$(NoWarn);CA1515</NoWarn>
   </ItemGroup>
+
+  <PropertyGroup Condition="$(IsTestProject)">
+    <NoWarn>$(NoWarn);CA1515</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\LICENSE" Pack="true" PackagePath="LICENSE" />
