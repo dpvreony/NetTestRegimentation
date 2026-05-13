@@ -203,6 +203,17 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
             foreach (var method in methods)
             {
+                var methodSymbol = (IMethodSymbol)method;
+                if (methodSymbol.MethodKind != MethodKind.Ordinary)
+                {
+                    continue;
+                }
+
+                if (!methodSymbol.CanBeReferencedByName)
+                {
+                    continue;
+                }
+
                 // TODO: extend name with type arguments and method arguments.
                 // TODO: work out the base implementation from NetTestRegimentation
                 var constructorIdentifier = $"{method.Name}Method";
