@@ -2,9 +2,6 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NetTestRegimentation.IntegrationTests
@@ -17,6 +14,7 @@ namespace NetTestRegimentation.IntegrationTests
         /// <summary>
         /// Test to ensure that the test runner can execute at least one test in the assembly. This test will always pass.
         /// </summary>
+        [Fact]
         public static void Run()
         {
             Assert.True(true);
