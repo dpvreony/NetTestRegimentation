@@ -38,6 +38,7 @@
 
   <ItemGroup Condition="$(IsTestProject)">
     <Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />
+    <NoWarn>$(NoWarn);CA1515</NoWarn>
   </ItemGroup>
 
   <ItemGroup>
