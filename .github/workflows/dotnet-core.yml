@@ -21,8 +21,9 @@ jobs:
       pull-requests: write
       packages: read
       security-events: write
-    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@1.8.1
+    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@2.0.2
     with:
+      primary-build-mode: "linux-only"
       solutionName: "NetTestRegimentation"
       apiDocumentation: "None"
     secrets:
