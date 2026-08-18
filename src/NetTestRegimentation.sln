@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestRegimentation", "NetTestRegimentation\NetTestRegimentation.csproj", "{F1E91E4A-554C-42DC-8570-0349C1A56C18}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.SourceGenerator.DotNetTool", "NetTestRegimentation.SourceGenerator.DotNetTool\NetTestRegimentation.SourceGenerator.DotNetTool.csproj", "{AAF10258-5C61-48F0-B882-6AB0CCBB48DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.IntegrationTests", "NetTestRegimentation.IntegrationTests\NetTestRegimentation.IntegrationTests.csproj", "{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestRegimentation.IntegrationTests", "NetTestRegimentation.IntegrationTests\NetTestRegimentation.IntegrationTests.csproj", "{F7DFB9F1-05AF-47CB-A15D-0F17A4700419}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A33C3CF-DF99-4DE8-9739-27AB89DDEF8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7DFB9F1-05AF-47CB-A15D-0F17A4700419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DFB9F1-05AF-47CB-A15D-0F17A4700419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DFB9F1-05AF-47CB-A15D-0F17A4700419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DFB9F1-05AF-47CB-A15D-0F17A4700419}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

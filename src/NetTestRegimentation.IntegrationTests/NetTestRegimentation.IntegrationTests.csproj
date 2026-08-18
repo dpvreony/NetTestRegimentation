@@ -4,9 +4,11 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <NoWarn>CA1034,CA1515</NoWarn>
+    <OutputType>exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetTestRegimentation\NetTestRegimentation.csproj" />
     <ProjectReference Include="..\NetTestRegimentation.SourceGenerator.DotNetTool\NetTestRegimentation.SourceGenerator.DotNetTool.csproj" />
     <ProjectReference Include="..\NetTestRegimentation.XUnit\NetTestRegimentation.XUnit.csproj" />
   </ItemGroup>
