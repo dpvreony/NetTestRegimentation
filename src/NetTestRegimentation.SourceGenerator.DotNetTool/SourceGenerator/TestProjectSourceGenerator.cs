@@ -157,6 +157,36 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                 sourceText);
         }
 
+        private static ClassDeclarationSyntax AddLoggingCapableConstructor(ClassDeclarationSyntax classDeclaration, INamedTypeSymbol namedTypeSymbol)
+        {
+            var attributeLists = SyntaxFactory.List<AttributeListSyntax>();
+            var modifiers = SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
+            var identifier = SyntaxFactory.Identifier(classDeclaration.Identifier.Text);
+
+            var parameters = new List<ParameterSyntax>
+            {
+                SyntaxFactory.Parameter(SyntaxFactory.Identifier("output"))
+                    .WithType(SyntaxFactory.ParseTypeName("global::Xunit.Abstractions.ITestOutputHelper"))
+            };
+            var separatedParameters = SyntaxFactory.SeparatedList(parameters);
+
+            var parameterList = SyntaxFactory.ParameterList(separatedParameters);
+            var initializer = SyntaxFactory.ConstructorInitializer(SyntaxKind.BaseConstructorInitializer)
+                .WithArgumentList(SyntaxFactory.ArgumentList(SyntaxFactory.SingletonSeparatedList(
+                    SyntaxFactory.Argument(SyntaxFactory.IdentifierName("output")))));
+            var body = SyntaxFactory.Block();
+
+            var loggingConstructor = SyntaxFactory.ConstructorDeclaration(
+                attributeLists,
+                modifiers,
+                identifier,
+                parameterList,
+                initializer,
+                body);
+
+            return classDeclaration.AddMembers(loggingConstructor);
+        }
+
         private static ClassDeclarationSyntax AddPropertyTests(
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol namedTypeSymbol)
@@ -181,6 +211,10 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     SyntaxFactory.Token(SyntaxKind.SealedKeyword),
                     SyntaxFactory.Token(SyntaxKind.PartialKeyword));
                 var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                ctorDeclaration = AddLoggingCapableConstructor(
+                    ctorDeclaration,
+                    namedTypeSymbol);
+
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
             }
 
@@ -232,6 +266,11 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                 var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
                     .WithModifiers(modifiers)
                     .WithLeadingTrivia(comments);
+
+                ctorDeclaration = AddLoggingCapableConstructor(
+                    ctorDeclaration,
+                    namedTypeSymbol);
+
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
             }
 
@@ -283,13 +322,20 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
                 if (nullableParameters.Length > 0)
                 {
-                    var nullReferenceTestInterface = "ITestNullReferenceException";
-                    var baseList = SyntaxFactory.BaseList(
-                        SyntaxFactory.SingletonSeparatedList<BaseTypeSyntax>(
-                            SyntaxFactory.SimpleBaseType(
-                                SyntaxFactory.IdentifierName(nullReferenceTestInterface))));
+                    var nodes = new List<BaseTypeSyntax>
+                    {
+                        SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName("global::NetTestRegimentation.XUnit.Logging.TestWithLoggingBase")),
+                        SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName("ITestNullReferenceException"))
+                    };
+
+                    var baseItems = SyntaxFactory.SeparatedList(nodes);
+                    var baseList = SyntaxFactory.BaseList(baseItems);
                     ctorDeclaration = ctorDeclaration.WithBaseList(baseList);
                 }
+
+                ctorDeclaration = AddLoggingCapableConstructor(
+                    ctorDeclaration,
+                    namedTypeSymbol);
 
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
 
