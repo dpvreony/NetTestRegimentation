@@ -221,6 +221,49 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             return classDeclaration;
         }
 
+        private static string GetTypeIdentifierName(ITypeSymbol type)
+        {
+            if (type is IArrayTypeSymbol arrayType)
+            {
+                return GetTypeIdentifierName(arrayType.ElementType) + "Array";
+            }
+
+            if (type is INamedTypeSymbol namedType)
+            {
+                var name = namedType.Name;
+                var parts = name.Split('`');
+                if (parts.Length > 1)
+                {
+                    name = parts[0];
+                }
+
+                // If the named type has concrete type arguments, use them.
+                if (namedType.TypeArguments.Length > 0)
+                {
+                    var args = namedType.TypeArguments.Select(GetTypeIdentifierName).ToArray();
+                    var joined = string.Join("And", args);
+                    return $"{name}Of{joined}";
+                }
+
+                // If the type is generic but open (no type arguments available), use the type parameter names.
+                if (namedType.Arity > 0 && namedType.TypeParameters.Length > 0)
+                {
+                    var args = namedType.TypeParameters.Select(tp => tp.Name).ToArray();
+                    var joined = string.Join("And", args);
+                    return $"{name}Of{joined}";
+                }
+
+                return name;
+            }
+
+            if (type is ITypeParameterSymbol typeParam)
+            {
+                return typeParam.Name;
+            }
+
+            return type.Name ?? type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+        }
+
         private static ClassDeclarationSyntax AddMethodTests(
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol namedTypeSymbol)
@@ -291,7 +334,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             foreach (var constructor in constructors)
             {
                 var parameters = constructor.Parameters;
-                var paramNames = parameters.Select(p => p.Type.Name)
+                var paramNames = parameters.Select(p => GetTypeIdentifierName(p.Type))
                     .ToArray();
 
                 string? paramNamesSuffix = null;
