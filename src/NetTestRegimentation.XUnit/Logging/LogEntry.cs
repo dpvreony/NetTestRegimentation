@@ -89,7 +89,7 @@ namespace NetTestRegimentation.XUnit.Logging
 #pragma warning disable CA1305 // Specify IFormatProvider
 #pragma warning disable CA1304 // Specify CultureInfo
 #pragma warning disable CA1311 // Specify a culture or use an invariant version
-            return string.Concat(string.Empty, Date.ToString("mm:ss.fff"), " ", LogLevel.ToString().Substring(0, 1).ToUpper(), ": ", Message, " - ", CategoryName);
+            return string.Concat(string.Empty, Date.ToString("mm:ss.fff"), " ", LogLevel.ToString().Substring(0, 1).ToUpper(), ": ", Message, " - ", CategoryName, " - ", Exception?.ToString() ?? string.Empty);
 #pragma warning restore CA1311 // Specify a culture or use an invariant version
 #pragma warning restore CA1304 // Specify CultureInfo
 #pragma warning restore CA1305 // Specify IFormatProvider
@@ -117,7 +117,7 @@ namespace NetTestRegimentation.XUnit.Logging
 #pragma warning disable CA1305 // Specify IFormatProvider
 #pragma warning disable CA1304 // Specify CultureInfo
 #pragma warning disable CA1311 // Specify a culture or use an invariant version
-            return string.Concat(string.Empty, Date.ToString("mm:ss.fff"), " ", LogLevel.ToString().Substring(0, 1).ToUpper(), ": ", Message, " - ", category);
+            return string.Concat(string.Empty, Date.ToString("mm:ss.fff"), " ", LogLevel.ToString().Substring(0, 1).ToUpper(), ": ", Message, " - ", category, " - ", Exception?.ToString() ?? string.Empty);
 #pragma warning restore CA1311 // Specify a culture or use an invariant version
 #pragma warning restore CA1304 // Specify CultureInfo
 #pragma warning restore CA1305 // Specify IFormatProvider
