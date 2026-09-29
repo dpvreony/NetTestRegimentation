@@ -89,6 +89,27 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
             return name;
         }
 
+        private static string GetFullyQualifiedMemberSignature(INamedTypeSymbol namedTypeSymbol, IMethodSymbol method)
+        {
+            var genericTypeParams = method.TypeParameters.Length > 0
+                ? "<" + string.Join(",", method.TypeParameters.Select(tp => tp.Name)) + ">"
+                : string.Empty;
+
+            var paramList = string.Join(", ", method.Parameters
+                .Select(p => p.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+
+            if (method.MethodKind == MethodKind.Constructor)
+            {
+                return string.IsNullOrEmpty(paramList)
+                    ? $"{namedTypeSymbol.ToDisplayString()}()"
+                    : $"{namedTypeSymbol.ToDisplayString()}({paramList})";
+            }
+
+            return string.IsNullOrEmpty(paramList)
+                ? $"{namedTypeSymbol.ToDisplayString()}.{method.Name}{genericTypeParams}()"
+                : $"{namedTypeSymbol.ToDisplayString()}.{method.Name}{genericTypeParams}({paramList})";
+        }
+
         private static void DoGeneration(
             SourceProductionContext productionContext,
             INamedTypeSymbol namedTypeSymbol,
@@ -291,14 +312,24 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     continue;
                 }
 
-                // TODO: extend name with type arguments and method arguments.
-                // TODO: work out the base implementation from NetTestRegimentation
+                if (methodSymbol.OverriddenMethod != null && methodSymbol.OverriddenMethod.ContainingType.SpecialType == SpecialType.System_Object)
+                {
+                    // Ignore methods defined on System.Object (e.g. ToString, GetHashCode)
+                    // unless they are overridden in the derived type. Overridden methods will
+                    // have a different ContainingType, so only filter out members whose
+                    // containing type is System.Object.
+                    continue;
+                }
+
+                // Include method generic type parameter list (if any) and the parameter types in the summary
+                var methodSignature = GetFullyQualifiedMemberSignature(namedTypeSymbol, methodSymbol);
+
                 var constructorIdentifier = $"{method.Name}Method";
 
                 var comments = new[]
                 {
                     SyntaxFactory.Comment("///<summary>"),
-                    SyntaxFactory.Comment($"/// Unit Tests for the method <see cref=\"{namedTypeSymbol.ToDisplayString()}.{constructorIdentifier}\" />."),
+                    SyntaxFactory.Comment($"/// Unit Tests for the method <see cref=\"{methodSignature}\" />."),
                     SyntaxFactory.Comment("///<summary>")
                 };
 
@@ -333,85 +364,101 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
             foreach (var constructor in constructors)
             {
-                // If the declaring type is generic, add a unique generic-arity identifier
-                // before the parameter-based suffix so identifiers are unique per arity.
-                var parameters = constructor.Parameters;
-                string? genericArgsSuffix = null;
-                var arity = namedTypeSymbol.Arity;
-                if (arity > 0)
+                classDeclaration = AddConstructorMethodTestClass(
+                    classDeclaration,
+                    namedTypeSymbol,
+                    constructor);
+            }
+
+            return classDeclaration;
+        }
+
+        private static ClassDeclarationSyntax AddConstructorMethodTestClass(
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol namedTypeSymbol,
+            IMethodSymbol constructor)
+        {
+            // If the declaring type is generic, add a unique generic-arity identifier
+            // before the parameter-based suffix so identifiers are unique per arity.
+            var parameters = constructor.Parameters;
+            string? genericArgsSuffix = null;
+            var arity = namedTypeSymbol.Arity;
+            if (arity > 0)
+            {
+                var tNames = Enumerable.Range(1, arity).Select(i => $"T{i}").ToArray();
+                genericArgsSuffix = "Of" + string.Join("And", tNames);
+            }
+
+            var paramNames = parameters.Select(p => GetTypeIdentifierName(p.Type))
+                .ToArray();
+
+            string? paramNamesSuffix = null;
+            if (paramNames.Length > 0)
+            {
+                paramNamesSuffix = "With" + string.Join("_", paramNames);
+            }
+
+            var nullableParameters = parameters.Where(p => p.Type.IsReferenceType)
+                .ToArray();
+
+            var constructorIdentifier = $"ConstructorMethod{genericArgsSuffix ?? string.Empty}{paramNamesSuffix}";
+            var modifiers = SyntaxFactory.TokenList(
+                SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                SyntaxFactory.Token(SyntaxKind.SealedKeyword),
+                SyntaxFactory.Token(SyntaxKind.PartialKeyword));
+
+            var constructorSignature = GetFullyQualifiedMemberSignature(namedTypeSymbol, constructor);
+
+            var comments = new[]
+            {
+                SyntaxFactory.Comment("///<summary>"),
+                SyntaxFactory.Comment($"/// Unit Tests for the constructor <see cref=\"{constructorSignature}\" />."),
+                SyntaxFactory.Comment("///<summary>")
+            };
+
+            var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
+                .WithModifiers(modifiers)
+                .WithLeadingTrivia(comments);
+
+            if (nullableParameters.Length > 0)
+            {
+                var nullableParametersList = string.Join(", ", nullableParameters.Select(p => p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
+
+                var nodes = new List<BaseTypeSyntax>
                 {
-                    var tNames = Enumerable.Range(1, arity).Select(i => $"T{i}").ToArray();
-                    genericArgsSuffix = "Of" + string.Join("And", tNames);
-                }
-
-                var paramNames = parameters.Select(p => GetTypeIdentifierName(p.Type))
-                    .ToArray();
-
-                string? paramNamesSuffix = null;
-                if (paramNames.Length > 0)
-                {
-                    paramNamesSuffix = "With" + string.Join("_", paramNames);
-                }
-
-                var nullableParameters = parameters.Where(p => p.Type.IsReferenceType)
-                    .ToArray();
-
-                var constructorIdentifier = $"ConstructorMethod{genericArgsSuffix ?? string.Empty}{paramNamesSuffix}";
-                var modifiers = SyntaxFactory.TokenList(
-                    SyntaxFactory.Token(SyntaxKind.PublicKeyword),
-                    SyntaxFactory.Token(SyntaxKind.SealedKeyword),
-                    SyntaxFactory.Token(SyntaxKind.PartialKeyword));
-
-                var comments = new[]
-                {
-                    SyntaxFactory.Comment("///<summary>"),
-                    SyntaxFactory.Comment($"/// Unit Tests for the constructor <see cref=\"{namedTypeSymbol.ToDisplayString()}.{constructorIdentifier}\" />."),
-                    SyntaxFactory.Comment("///<summary>")
+                    SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName("global::NetTestRegimentation.XUnit.Logging.TestWithLoggingBase")),
+                    SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName($"global::NetTestRegimentation.ITestMethodWithNullableParameters<{nullableParametersList}>"))
                 };
 
-                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
-                    .WithModifiers(modifiers)
-                    .WithLeadingTrivia(comments);
+                var baseItems = SyntaxFactory.SeparatedList(nodes);
+                var baseList = SyntaxFactory.BaseList(baseItems);
+                ctorDeclaration = ctorDeclaration.WithBaseList(baseList);
+            }
 
-                if (nullableParameters.Length > 0)
-                {
-                    var nullableParametersList = string.Join(", ", nullableParameters.Select(p => p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
+            ctorDeclaration = AddLoggingCapableConstructor(
+                ctorDeclaration,
+                namedTypeSymbol);
 
-                    var nodes = new List<BaseTypeSyntax>
-                    {
-                        SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName("global::NetTestRegimentation.XUnit.Logging.TestWithLoggingBase")),
-                        SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName($"global::NetTestRegimentation.ITestMethodWithNullableParameters<{nullableParametersList}>"))
-                    };
+            if (nullableParameters.Length > 0)
+            {
+                // Generate a theory method that forwards to EnsureThrowsArgumentNullException
+                var theoryAttr = SyntaxFactory.AttributeList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.Attribute(SyntaxFactory.ParseName("global::Xunit.Theory"))));
 
-                    var baseItems = SyntaxFactory.SeparatedList(nodes);
-                    var baseList = SyntaxFactory.BaseList(baseItems);
-                    ctorDeclaration = ctorDeclaration.WithBaseList(baseList);
-                }
+                // Build the ClassData attribute pointing to the generated TheoryData type.
+                var rootNamespace = namedTypeSymbol.ContainingAssembly.Name;
+                var containingNs = namedTypeSymbol.ContainingNamespace?.ToString() ?? string.Empty;
+                var subSuffix = containingNs.StartsWith(rootNamespace, StringComparison.Ordinal)
+                    ? containingNs.Substring(rootNamespace.Length)
+                    : containingNs;
 
-                ctorDeclaration = AddLoggingCapableConstructor(
-                    ctorDeclaration,
-                    namedTypeSymbol);
+                var dataNamespace = rootNamespace + ".TheoryData" + subSuffix;
+                var classDataTypeName = $"global::{dataNamespace}.{namedTypeSymbol.Name}Tests.{constructorIdentifier}";
 
-                if (nullableParameters.Length > 0)
-                {
-                    // Generate a theory method that forwards to EnsureThrowsArgumentNullException
-                    var theoryAttr = SyntaxFactory.AttributeList(
-                        SyntaxFactory.SingletonSeparatedList(
-                            SyntaxFactory.Attribute(SyntaxFactory.ParseName("global::Xunit.Theory"))));
-
-                    // Build the ClassData attribute pointing to the generated TheoryData type.
-                    var rootNamespace = namedTypeSymbol.ContainingAssembly.Name;
-                    var containingNs = namedTypeSymbol.ContainingNamespace?.ToString() ?? string.Empty;
-                    var subSuffix = containingNs.StartsWith(rootNamespace, StringComparison.Ordinal)
-                        ? containingNs.Substring(rootNamespace.Length)
-                        : containingNs;
-
-                    var dataNamespace = rootNamespace + ".TheoryData" + subSuffix;
-                    var classDataTypeName = $"global::{dataNamespace}.{namedTypeSymbol.Name}Tests.{constructorIdentifier}";
-
-                    var classDataAttr = SyntaxFactory.AttributeList(
-                        SyntaxFactory.SingletonSeparatedList(
-                            SyntaxFactory.Attribute(
+                var classDataAttr = SyntaxFactory.AttributeList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.Attribute(
                                 SyntaxFactory.ParseName("global::Xunit.ClassData"))
                             .WithArgumentList(
                                 SyntaxFactory.AttributeArgumentList(
@@ -420,53 +467,50 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                                             SyntaxFactory.TypeOfExpression(
                                                 SyntaxFactory.ParseTypeName(classDataTypeName))))))));
 
-                    // Build parameters matching the constructor parameters, fully-qualified types
-                    var methodParams = new List<ParameterSyntax>();
-                    var invocationArgs = new List<ArgumentSyntax>();
-                    foreach (var p in parameters)
-                    {
-                        var fqType = p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                        var param = SyntaxFactory.Parameter(SyntaxFactory.Identifier(p.Name))
-                            .WithType(SyntaxFactory.ParseTypeName(fqType));
-                        methodParams.Add(param);
+                // Build parameters matching the constructor parameters, fully-qualified types
+                var methodParams = new List<ParameterSyntax>();
+                var invocationArgs = new List<ArgumentSyntax>();
+                foreach (var p in parameters)
+                {
+                    var fqType = p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    var param = SyntaxFactory.Parameter(SyntaxFactory.Identifier(p.Name))
+                        .WithType(SyntaxFactory.ParseTypeName(fqType));
+                    methodParams.Add(param);
 
-                        invocationArgs.Add(SyntaxFactory.Argument(SyntaxFactory.IdentifierName(p.Name)));
-                    }
-
-                    // Add the expected parameter name for the thrown exception as the last argument
-                    var expectedParamNameParam = SyntaxFactory.Parameter(SyntaxFactory.Identifier("expectedParameterNameForException"))
-                        .WithType(SyntaxFactory.ParseTypeName("global::System.String"));
-                    methodParams.Add(expectedParamNameParam);
-                    invocationArgs.Add(SyntaxFactory.Argument(SyntaxFactory.IdentifierName("expectedParameterNameForException")));
-
-                    var parameterList = SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(methodParams));
-
-                    var invocation = SyntaxFactory.ExpressionStatement(
-                        SyntaxFactory.InvocationExpression(
-                            SyntaxFactory.MemberAccessExpression(
-                                SyntaxKind.SimpleMemberAccessExpression,
-                                SyntaxFactory.ThisExpression(),
-                                SyntaxFactory.IdentifierName("EnsureThrowsArgumentNullException")),
-                            SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(invocationArgs))));
-
-                    var methodDecl = SyntaxFactory.MethodDeclaration(
-                            SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
-                            SyntaxFactory.Identifier("ThrowsArgumentNullException"))
-                        .WithAttributeLists(SyntaxFactory.List(new[] { theoryAttr, classDataAttr }))
-                        .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
-                        .WithParameterList(parameterList)
-                        .WithBody(SyntaxFactory.Block(invocation));
-
-                    ctorDeclaration = ctorDeclaration.AddMembers(methodDecl);
+                    invocationArgs.Add(SyntaxFactory.Argument(SyntaxFactory.IdentifierName(p.Name)));
                 }
 
-                classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
+                // Add the expected parameter name for the thrown exception as the last argument
+                var expectedParamNameParam = SyntaxFactory.Parameter(SyntaxFactory.Identifier("expectedParameterNameForException"))
+                    .WithType(SyntaxFactory.ParseTypeName("global::System.String"));
+                methodParams.Add(expectedParamNameParam);
+                invocationArgs.Add(SyntaxFactory.Argument(SyntaxFactory.IdentifierName("expectedParameterNameForException")));
 
-                // TODO: add returns instance test
-                // TODO: add null reference exception tests
+                var parameterList = SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(methodParams));
+
+                var invocation = SyntaxFactory.ExpressionStatement(
+                    SyntaxFactory.InvocationExpression(
+                        SyntaxFactory.MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression,
+                            SyntaxFactory.ThisExpression(),
+                            SyntaxFactory.IdentifierName("EnsureThrowsArgumentNullException")),
+                        SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(invocationArgs))));
+
+                var methodDecl = SyntaxFactory.MethodDeclaration(
+                        SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
+                        SyntaxFactory.Identifier("ThrowsArgumentNullException"))
+                    .WithAttributeLists(SyntaxFactory.List(new[] { theoryAttr, classDataAttr }))
+                    .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
+                    .WithParameterList(parameterList)
+                    .WithBody(SyntaxFactory.Block(invocation));
+
+                ctorDeclaration = ctorDeclaration.AddMembers(methodDecl);
             }
 
-            return classDeclaration;
+            return classDeclaration.AddMembers(ctorDeclaration);
+
+            // TODO: add returns instance test
+            // TODO: add null reference exception tests
         }
     }
 }
