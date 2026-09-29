@@ -43,6 +43,21 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     tuple.Compilation));
         }
 
+        private static string GetFullyQualifiedPropertySignature(INamedTypeSymbol namedTypeSymbol, IPropertySymbol property)
+        {
+            // Properties themselves do not take parameters except for indexers.
+            // In Roslyn an indexer is represented as an IPropertySymbol and any
+            // indexer parameter types are available on IPropertySymbol.Parameters.
+            // We include those types here so generated XML documentation can
+            // uniquely identify indexers like MyType.this[int,string].
+            var paramList = string.Join(", ", property.Parameters
+                .Select(p => p.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+
+            return string.IsNullOrEmpty(paramList)
+                ? $"{namedTypeSymbol.ToDisplayString()}.{property.Name}"
+                : $"{namedTypeSymbol.ToDisplayString()}.{property.Name}[{paramList}]";
+        }
+
         private static bool IsDesiredAssembly(IAssemblySymbol assembly)
         {
             var allowedAssemblyNames = new[] { "NetTestRegimentation", "nettestregimentation-sourcegen" };
@@ -224,14 +239,27 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
 
             foreach (var method in methods)
             {
-                // TODO: extend name with type arguments and method arguments.
-                // TODO: work out the base implementation from NetTestRegimentation
+                // Build a property-specific signature for XML documentation (handles indexers)
+                var propertySymbol = (IPropertySymbol)method;
+
+                var propertySignature = GetFullyQualifiedPropertySignature(namedTypeSymbol, propertySymbol);
+
+                // TODO: extend name with type arguments and method arguments if needed for uniqueness
                 var constructorIdentifier = $"{method.Name}Property";
                 var modifiers = SyntaxFactory.TokenList(
                     SyntaxFactory.Token(SyntaxKind.PublicKeyword),
                     SyntaxFactory.Token(SyntaxKind.SealedKeyword),
                     SyntaxFactory.Token(SyntaxKind.PartialKeyword));
-                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier).WithModifiers(modifiers);
+                var comments = new[]
+                {
+                    SyntaxFactory.Comment("///<summary>"),
+                    SyntaxFactory.Comment($"/// Unit Tests for the property <see cref=\"{propertySignature}\" />."),
+                    SyntaxFactory.Comment("///<summary>")
+                };
+
+                var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
+                    .WithModifiers(modifiers)
+                    .WithLeadingTrivia(comments);
                 ctorDeclaration = AddLoggingCapableConstructor(
                     ctorDeclaration,
                     namedTypeSymbol);
@@ -345,6 +373,20 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     ctorDeclaration,
                     namedTypeSymbol);
 
+                var parameters = methodSymbol.Parameters;
+                var nullableParameters = parameters.Where(p => p.Type.IsReferenceType)
+                    .ToArray();
+
+                if (nullableParameters.Length > 0)
+                {
+                    ctorDeclaration = AddThrowsNullReferenceExceptionTheoryDataClass(
+                        ctorDeclaration,
+                        namedTypeSymbol,
+                        methodSymbol,
+                        methodSignature,
+                        nullableParameters);
+                }
+
                 classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
             }
 
@@ -454,7 +496,7 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                     : containingNs;
 
                 var dataNamespace = rootNamespace + ".TheoryData" + subSuffix;
-                var classDataTypeName = $"global::{dataNamespace}.{namedTypeSymbol.Name}Tests.{constructorIdentifier}";
+                var classDataTypeName = $"ThrowsArgumentNullExceptionTheoryData";
 
                 var classDataAttr = SyntaxFactory.AttributeList(
                     SyntaxFactory.SingletonSeparatedList(
@@ -507,10 +549,68 @@ namespace NetTestRegimentation.SourceGenerator.DotNetTool.SourceGenerator
                 ctorDeclaration = ctorDeclaration.AddMembers(methodDecl);
             }
 
-            return classDeclaration.AddMembers(ctorDeclaration);
+            if (nullableParameters.Length > 0)
+            {
+                ctorDeclaration = AddThrowsNullReferenceExceptionTheoryDataClass(
+                    ctorDeclaration,
+                    namedTypeSymbol,
+                    constructor,
+                    constructorSignature,
+                    nullableParameters);
+            }
+
+            classDeclaration = classDeclaration.AddMembers(ctorDeclaration);
 
             // TODO: add returns instance test
             // TODO: add null reference exception tests
+            return classDeclaration;
+        }
+
+        private static ClassDeclarationSyntax AddThrowsNullReferenceExceptionTheoryDataClass(
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol namedTypeSymbol,
+            IMethodSymbol methodSymbol,
+            string methodSignature,
+            IParameterSymbol[] parameters)
+        {
+            var constructorIdentifier = $"ThrowsArgumentNullExceptionTheoryData";
+
+            var modifiers = SyntaxFactory.TokenList(
+                SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                SyntaxFactory.Token(SyntaxKind.SealedKeyword));
+
+            var comments = new[]
+            {
+                SyntaxFactory.Comment("///<summary>"),
+                SyntaxFactory.Comment("/// TheoryData class for <see cref=\"ThrowsArgumentNullException\" />."),
+                SyntaxFactory.Comment("///<summary>")
+            };
+
+            var paramList = new List<string>();
+            foreach (var parameterSymbol in parameters)
+            {
+                var name = parameterSymbol.Type.IsReferenceType || parameterSymbol.NullableAnnotation == NullableAnnotation.NotAnnotated
+                    ? $"global::NetTestRegimentation.Scenarios.ArgumentNullExceptionParameter.NullableParameter"
+                    : "global::NetTestRegimentation.Scenarios.ArgumentNullExceptionParameter.FixedParameter";
+                paramList.Add(name);
+            }
+
+            var paramsString = string.Join(", ", paramList);
+
+            var nodes = new List<BaseTypeSyntax>
+            {
+                SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName($"global::NetTestRegimentation.AbstractTheoryWithNullablePermutations<{paramsString}>"))
+            };
+
+            var baseItems = SyntaxFactory.SeparatedList(nodes);
+            var baseList = SyntaxFactory.BaseList(baseItems);
+
+            var ctorDeclaration = SyntaxFactory.ClassDeclaration(constructorIdentifier)
+                .WithModifiers(modifiers)
+                .WithLeadingTrivia(comments)
+                .WithBaseList(baseList);
+
+            return classDeclaration.AddMembers(ctorDeclaration);
         }
     }
 }
